@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "doctopi"
+version = "0.1.0"
+description = "Extensible Python library for docs-as-code"
+readme = "README.md"
+authors = [
+  {name = "Jack Swiney", email = "jack.swiney11@gmail.com"}
+]
+maintainers = [
+  {name = "Jack Swiney", email = "jack.swiney11@gmail.com"}
+]
+classifiers = [
+
+]
+license = {text = "Apache Software License 2.0"}
+dependencies = [
+
+]
+
+[project.optional-dependencies]
+dev = [
+    "coverage",  # testing
+    "pylint",  # linting
+    "pytest"  # testing
+]
+
+[project.urls]
+
+bugs = "https://github.com/jack-swiney/doctopi/issues"
+changelog = "https://github.com/jack-swiney/doctopi/blob/master/changelog.md"
+homepage = "https://github.com/jack-swiney/doctopi"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.package-data]
+"*" = ["*.*"]
