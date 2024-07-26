@@ -1,6 +1,6 @@
 """Use the Factory Method design pattern to create a generic source code
 parser."""
-from doctopi.parser.python import (EpydocAdapter, GoogleAdapter, NumpyAdapter, SphinxAdapter)
+from doctopi.parser.python import PythonAdapter
 from doctopi.parser import Parser
 
 
@@ -22,10 +22,11 @@ def ParserFactory(language: str = "python", parser: str = "google") -> Parser:
         "cpp": {},
         "java": {},
         "python": {
-            "epydoc": EpydocAdapter,
-            "google": GoogleAdapter,
-            "numpy": NumpyAdapter,
-            "sphinx": SphinxAdapter
+            # TODO use generic python_adapter, remove specific adapters
+            "epydoc": PythonAdapter,
+            "google": PythonAdapter,
+            "numpy": PythonAdapter,
+            "sphinx": PythonAdapter
         }
     }
 

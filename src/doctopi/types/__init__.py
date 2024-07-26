@@ -1,5 +1,5 @@
 from __future__ import annotations
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum
 import os
 from typing import (List, Union)
@@ -10,7 +10,7 @@ class AccessType(Enum):
     PRIVATE = 3
 
 @dataclass
-class NameDescriptionTypePair:
+class NameDescriptionType:
     name: str = ""
     description: str = ""
     type: str = ""
@@ -18,9 +18,9 @@ class NameDescriptionTypePair:
 @dataclass
 class Docstring:
     summary: str = ""
-    args: List[NameDescriptionTypePair] = []
-    returns: NameDescriptionTypePair = None
-    raises: List[NameDescriptionTypePair] = []
+    args: List[NameDescriptionType] = field(default_factory=list)
+    returns: NameDescriptionType = None
+    raises: List[NameDescriptionType] = field(default_factory=list)
 
 @dataclass
 class FunctionDeclaration:
@@ -34,21 +34,21 @@ class ClassDeclaration:
     name: str
     signature: str
     docstring: Docstring = None
-    member_variables: List[NameDescriptionTypePair] = []
-    member_functions: List[FunctionDeclaration] = []
-    subclasses: List[ClassDeclaration] = []
+    member_variables: List[NameDescriptionType] = field(default_factory=list)
+    member_functions: List[FunctionDeclaration] = field(default_factory=list)
+    subclasses: List[ClassDeclaration] = field(default_factory=list)
 
 @dataclass
 class DocFile:
     name: str
     path: Union[str, bytes, os.PathLike]
     docstring: Docstring = None
-    classes: List[ClassDeclaration] = []
-    functions: List[FunctionDeclaration] = []
+    classes: List[ClassDeclaration] = field(default_factory=list)
+    functions: List[FunctionDeclaration] = field(default_factory=list)
 
 @dataclass
 class DocDir:
     name: str
     path: Union[str, bytes, os.PathLike]
-    files: List[DocFile] = []
-    subdirs: List[DocDir] = []
+    files: List[DocFile] = field(default_factory=list)
+    subdirs: List[DocDir] = field(default_factory=list)
