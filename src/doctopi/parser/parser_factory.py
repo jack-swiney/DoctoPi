@@ -1,6 +1,10 @@
 """Use the Factory Method design pattern to create a generic source code
 parser."""
-from doctopi.parser.python import PythonAdapter
+# Third-party imports
+from docstring_parser.common import DocstringStyle
+
+# This package imports
+from doctopi.parser.python import DocspecAdapter
 from doctopi.parser import Parser
 
 
@@ -22,15 +26,16 @@ def ParserFactory(language: str = "python", parser: str = "google") -> Parser:
         "cpp": {},
         "java": {},
         "python": {
-            # TODO use generic python_adapter, remove specific adapters
-            "epydoc": PythonAdapter,
-            "google": PythonAdapter,
-            "numpy": PythonAdapter,
-            "sphinx": PythonAdapter
+            "auto": DocspecAdapter(DocstringStyle.AUTO),
+            "epydoc": DocspecAdapter(DocstringStyle.EPYDOC),
+            "google": DocspecAdapter(DocstringStyle.GOOGLE),
+            "numpy": DocspecAdapter(DocstringStyle.NUMPYDOC),
+            "rest": DocspecAdapter(DocstringStyle.REST),
+            "sphinx": DocspecAdapter(DocstringStyle.REST),
         }
     }
 
     try:
-        return parsers[language][parser]()
+        return parsers[language][parser]
     except KeyError as exc:
         raise ValueError(f"No matching parser for language={language}, parser={parser}") from exc
