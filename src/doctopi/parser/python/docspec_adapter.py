@@ -24,6 +24,11 @@ class DocspecAdapter(Parser):
     """Adapter to convert docspec utilites/types to doctopi types. Used to
     parse Python source code with Google, Numpy, EpyDoc, or Sphinx style
     docstrings.
+
+    Args:
+        docstring_style (docstring_parser.common.DocstringStyle):
+            Use the DocstringStyle enum to toggle which type of
+            docstring format to parse.
     """
 
     def __init__(self, docstring_style: DocstringStyle):

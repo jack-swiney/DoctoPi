@@ -1,15 +1,18 @@
 """Common types used by the doctopi package"""
+# Built-in imports
 from __future__ import annotations
 from dataclasses import dataclass, field
 from enum import Enum
 import os
 from typing import (List, Union)
 
+
 class AccessType(Enum):
     """Enum of a class or function's access modifier"""
     PUBLIC = 1
     PROTECTED = 2
     PRIVATE = 3
+
 
 @dataclass
 class NameDescriptionType:
@@ -20,6 +23,7 @@ class NameDescriptionType:
     description: str = ""
     type: str = ""
 
+
 @dataclass
 class Docstring:
     """Doctopi representation of a docstring"""
@@ -28,6 +32,7 @@ class Docstring:
     returns: NameDescriptionType = None
     raises: List[NameDescriptionType] = field(default_factory=list)
 
+
 @dataclass
 class FunctionDeclaration:
     """Doctopi representation of a function"""
@@ -35,6 +40,7 @@ class FunctionDeclaration:
     signature: str
     access: AccessType
     docstring: Docstring = None
+
 
 @dataclass
 class ClassDeclaration:
@@ -46,6 +52,7 @@ class ClassDeclaration:
     member_functions: List[FunctionDeclaration] = field(default_factory=list)
     subclasses: List[ClassDeclaration] = field(default_factory=list)
 
+
 @dataclass
 class DocFile:
     """Doctopi representation of a source code file"""
@@ -54,6 +61,7 @@ class DocFile:
     docstring: Docstring = None
     classes: List[ClassDeclaration] = field(default_factory=list)
     functions: List[FunctionDeclaration] = field(default_factory=list)
+
 
 @dataclass
 class DocDir:
