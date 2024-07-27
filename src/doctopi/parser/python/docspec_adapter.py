@@ -26,12 +26,13 @@ class DocspecAdapter(Parser):
     docstrings.
     """
 
-    # TODO figure out how to linewrap google style
     def __init__(self, docstring_style: DocstringStyle):
         """Constructor
 
         Args:
-            docstring_style (docstring_parser.common.DocstringStyle): Use the DocstringStyle enum to toggle which type of docstring format to parse.
+            docstring_style (docstring_parser.common.DocstringStyle):
+                Use the DocstringStyle enum to toggle which type of
+                docstring format to parse.
         """
         self.docstring_style = docstring_style
 
@@ -57,16 +58,17 @@ class DocspecAdapter(Parser):
             functions=self._get_module_functions(module)
         )
 
-    # TODO figure out how to linewrap google style
     def parse_dir(self, root: Union[str, bytes, os.PathLike]) -> DocDir:
         """Walk a directory and parse the contents/docstrings of each
         module
 
         Args:
-            root (Union[str, bytes, os.PathLike]): Source directory to walk and parse.
+            root (Union[str, bytes, os.PathLike]): Source directory to
+                walk and parse.
 
         Returns:
-            DocDir: Collection of DocFile and DocDirs  mapping the provided directory to the doctopi documentation types.
+            DocDir: Collection of DocFile and DocDirs  mapping the
+                provided directory to the doctopi documentation types.
         """
         # Get all of the items in the root directory
         entries = os.listdir(root)
@@ -95,37 +97,50 @@ class DocspecAdapter(Parser):
             subdirs=dirs
         )
 
-    def _parse_module(self, file: Union[str, bytes, os.PathLike]) -> Module:
-        """_summary_
-
-        Args:
-            file (Union[str, bytes, os.PathLike]): _description_
-
-        Returns:
-            Module: _description_
-        """
-        return parse_python_module(file)
-
     @staticmethod
     def module_members(member_type: type, convert_func: Callable) -> Callable:
-        """_summary_
+        """Decorator function for converting types from a dospec Module
+        into a list of doctopi types.
 
         Args:
-            member_type (type): _description_
-            convert_func (Callable): _description_
+            member_type (type): type in docspec.Module.members to
+                convert to doctopi type.
+            convert_func (Callable): function for converting the docspec
+                module members of member_type to a doctopi type.
 
         Returns:
-            Callable: _description_
+            Callable: Decorators return a Callable that wraps the
+                function or class it decorates. See below for details
+                on what is returned by the Callable itself.
         """
-        def decorator(func: Callable) -> Callable:
+        def decorator(func: Callable) -> Callable:  # pylint: disable=unused-argument
+            """Execute the wrapper function below whenver a function
+            is decorated with this module_members decorator.
+
+            Args:
+                func (Callable): Function that is decorated. This
+                    function shouldn't implement any functionality, as
+                    the decorator will handle it all. The function
+                    being decorator will just be a convenient name/
+                    entrypoint for this decorator function
+
+            Returns:
+                Callable: Decorators return a Callable that wraps the
+                    function or class it decorates. See below for
+                    details on what is returned by the Callable itself.
+            """
             def wrapper(self, module: Module) -> List:
-                """_summary_
+                """Convert types from a dospec Module into a list of
+                doctopi types.
 
                 Args:
-                    module (Module): _description_
+                    module (Module): Python module that has been parsed
+                        by docspec
 
                 Returns:
-                    List: _description_
+                    List: list of doctopi types specified in the
+                        decorator arguments, converted from the dospec
+                        Module.
                 """
                 # Create a list of declarations
                 declarations = []
@@ -140,82 +155,94 @@ class DocspecAdapter(Parser):
         return decorator
 
     def get_module_docstring(self, file: Union[str, bytes, os.PathLike]) -> Docstring:
-        """_summary_
+        """Use the docspec adapter to parse a Python module and return
+        its docstring
 
         Args:
-            file (Union[str, bytes, os.PathLike]): _description_
+            file (Union[str, bytes, os.PathLike]): Python module
 
         Returns:
-            Docstring: _description_
+            Docstring: Python module's docstring
         """
         return self._get_module_docstring(parse_python_module(file))
 
     def _get_module_docstring(self, module: Module) -> Docstring:
-        """_summary_
+        """Provided docspec has already parsed a module, use the adapter
+        to convert from docspec types to doctopi types, and return the
+        docstring of the module
 
         Args:
-            module (Module): _description_
+            module (Module): Python module
 
         Returns:
-            Docstring: _description_
+            Docstring: Python module's docstring
         """
         return self._docspec_to_doctopi_docstring(module.docstring)
 
     def get_module_classes(self, file: Union[str, bytes, os.PathLike]) -> List[ClassDeclaration]:
-        """_summary_
+        """Use the docspec adapter to parse a Python module and return
+        its classes
 
         Args:
-            file (Union[str, bytes, os.PathLike]): _description_
+            file (Union[str, bytes, os.PathLike]): Python module
 
         Returns:
-            List[ClassDeclaration]: _description_
+            List[ClassDeclaration]: list of classes in the Python module
         """
         return self._get_module_classes(parse_python_module(file))
 
     @module_members(Class, lambda self, member: self._docspec_to_doctopi_class(member))
     def _get_module_classes(self, module: Module) -> List[ClassDeclaration]:
-        """_summary_
+        """Provided docspec has already parsed a module, use the adapter
+        to convert from docspec types to doctopi types, and return the
+        classes in the Python module
 
         Args:
-            module (Module): _description_
+            module (Module): Python module
 
         Returns:
-            List[ClassDeclaration]: _description_
+            List[ClassDeclaration]: list of classes in the Python module
         """
         # The actual implementation is handled by the decorator
 
     def get_module_functions(self,
                              file: Union[str, bytes, os.PathLike]) -> List[FunctionDeclaration]:
-        """_summary_
+        """Use the docspec adapter to parse a Python module and return
+        its functions
 
         Args:
-            file (Union[str, bytes, os.PathLike]): _description_
+            file (Union[str, bytes, os.PathLike]): Python module
 
         Returns:
-            List[FunctionDeclaration]: _description_
+            List[FunctionDeclaration]: list of functions in the Python
+            module
         """
         return self._get_module_functions(parse_python_module(file))
 
     @module_members(Function, lambda self, member: self._docspec_to_doctopi_function(member))
     def _get_module_functions(self, module: Module) -> List[FunctionDeclaration]:
-        """_summary_
+        """Provided docspec has already parsed a module, use the adapter
+        to convert from docspec types to doctopi types, and return the
+        functions in the Python module
 
         Args:
-            module (Module): _description_
+            module (Module): Python module
 
         Returns:
-            List[FunctionDeclaration]: _description_
+            List[FunctionDeclaration]: list of functions in Python
+            module
         """
         # The actual implementation is handled by the decorator
 
     def _docspec_to_doctopi_docstring(self, docstring: docspec.Docstring) -> Docstring:
-        """_summary_
+        """Convert a docspec.Docstring type into a doctopi.Docstring
 
         Args:
-            docstring (docspec.Docstring): _description_
+            docstring (docspec.Docstring): docspec representation of
+                a docstring
 
         Returns:
-            Docstring: _description_
+            Docstring: doctopi representation of a docstring
         """
         # Set defaults
         summary = ""
@@ -253,23 +280,28 @@ class DocspecAdapter(Parser):
                             type=exc.type_name
                         )
                     )
+
+        # Docspec will throw a ParseError if the docstring isn't in the flavor
+        # specified. DocstringStyle.AUTO should be used for atypical styles
         except ParseError:
             logging.warning("Failed to parse %s for style %s",
                             docstring.location, self.docstring_style)
 
+        # Convert to doctopi.Docstring
         return Docstring(summary=summary,
-                            args=args,
-                            returns=returns,
-                            raises=raises)
+                         args=args,
+                         returns=returns,
+                         raises=raises)
 
     def _docspec_to_doctopi_function(self, function: Function) -> FunctionDeclaration:
-        """_summary_
+        """Convert a docspec.Function type into a
+        doctopi.FunctionDeclaration
 
         Args:
-            function (Function): _description_
+            function (Function): docspec representation of a function
 
         Returns:
-            FunctionDeclaration: _description_
+            FunctionDeclaration: doctopi representation of a function
         """
         return FunctionDeclaration(
             name=function.name,
@@ -278,25 +310,38 @@ class DocspecAdapter(Parser):
             docstring=self._docspec_to_doctopi_docstring(function.docstring)
         )
 
-
     def _docspec_to_doctopi_class(self, cls: Class) -> ClassDeclaration:
+        """convert a docspec.Class type into a doctopi.ClassDeclaration
+
+        Args:
+            cls (Class): docspec representation of a class
+
+        Returns:
+            ClassDeclaration: doctopi representation of a class
+        """
         member_variables = []
         member_functions = []
         member_classes = []
 
+        # Go through all of the class members
         for member in cls.members:
+
+            # Convert member functions
             if isinstance(member, Function):
                 member_functions.append(self._docspec_to_doctopi_function(member))
 
+            # Convert subclasses
             elif isinstance(member, Class):
                 member_functions.append(self._docspec_to_doctopi_class(member))
 
+            # Convert member variables
             elif isinstance(member, Variable):
                 member_functions.append(NameDescriptionType(
                     name=member.name,
                     type=member.datatype
                 ))
 
+        # Convert the docspec.Class to doctopi.ClassDeclaration
         return ClassDeclaration(
             name=cls.name,
             signature=self._parse_class_signature(cls),
@@ -307,13 +352,14 @@ class DocspecAdapter(Parser):
         )
 
     def _parse_function_signature(self, function: Function) -> str:
-        """_summary_
+        """Take a docspec.Function object and put together the original
+        function's signature like it's written in the source code.
 
         Args:
-            function (Function): _description_
+            function (Function): docspec representation of a Function
 
         Returns:
-            str: _description_
+            str: function's signature
         """
         # Extract the function name
         func_name = function.name
@@ -351,13 +397,14 @@ class DocspecAdapter(Parser):
         return f"def {func_name}({params_str}){return_type}:"
 
     def _parse_class_signature(self, cls: Class) -> str:
-        """_summary_
+        """Take a docspec.Class object and put together the original
+        class's signature like it's written in the source code.
 
         Args:
-            cls (Class): _description_
+            cls (Class): docspec representation of a class
 
         Returns:
-            str: _description_
+            str: class's signature
         """
         # Extract the class name
         class_name = cls.name
@@ -394,10 +441,10 @@ class DocspecAdapter(Parser):
                 start with an underscore.
 
         Args:
-            function (Function): _description_
+            function (Function): docspec representation of a function
 
         Returns:
-            AccessType: _description_
+            AccessType: Enum of public, private, or protected.
         """
 
         return AccessType.PROTECTED if function.name.startswith("_") \

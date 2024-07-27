@@ -1,5 +1,12 @@
 """Use the Factory Method design pattern to create a generic source code
-parser."""
+parser. Users of this package will immediately know "what's my
+source code language", "where's my source code", and "what type of
+docstring flavor am I using". The Factory Method design pattern will
+allow users to instantiate the right kind of parsing adapter without
+needing to see the details of the doctopi.parser package or any
+configuration packages like docstring_parser.common.DocstringStyle.
+"""
+
 # Third-party imports
 from docstring_parser.common import DocstringStyle
 
@@ -8,14 +15,15 @@ from doctopi.parser.python import DocspecAdapter
 from doctopi.parser import Parser
 
 
-def ParserFactory(language: str = "python", parser: str = "google") -> Parser:
+# pylint: disable-next = invalid-name
+def ParserFactory(language: str = "python", style: str = "google") -> Parser:
     """Factory Method to get a source code parser.
 
     Args:
         language (str, optional): programming language.
             Defaults to "python".
-        parser (str, optional): source code parser.
-            Defaults to "sphinx".
+        style (str, optional): source code docstring style/flavor.
+            Defaults to "google".
 
     Returns:
         Parser: Parser subclass specific to the provided language and
@@ -36,6 +44,6 @@ def ParserFactory(language: str = "python", parser: str = "google") -> Parser:
     }
 
     try:
-        return parsers[language][parser]
+        return parsers[language][style]
     except KeyError as exc:
-        raise ValueError(f"No matching parser for language={language}, parser={parser}") from exc
+        raise ValueError(f"No matching parser for language={language}, style={style}") from exc
