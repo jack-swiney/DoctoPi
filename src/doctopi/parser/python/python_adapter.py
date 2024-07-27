@@ -1,1 +1,0 @@
-"""Base class for Python source parser adapters"""
