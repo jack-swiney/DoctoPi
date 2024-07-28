@@ -1,0 +1,57 @@
+@startuml
+
+left to right direction
+actor User as u
+
+package Repository {
+  usecase "Java"
+  usecase "Python"
+  usecase "C++" as CPP
+  usecase "..." as OTHER_REPO
+}
+
+rectangle Adapters {
+  usecase "JavaDoc"
+  usecase "DocSpec"
+  usecase "Doxygen"
+  usecase "..." as OTHER_ADAPTER
+}
+
+Java --> JavaDoc
+CPP --> Doxygen
+Python --> DocSpec
+OTHER_REPO --> OTHER_ADAPTER
+
+rectangle Parser {
+  usecase "ParserFactory"
+}
+
+JavaDoc --> ParserFactory
+Doxygen --> ParserFactory
+DocSpec --> ParserFactory
+OTHER_ADAPTER --> ParserFactory
+
+rectangle Formatters {
+  usecase MarkdownBuilder as MD
+  usecase ReSTBuilder as ReST
+  usecase "..." as OTHER_FORMATTER
+}
+
+ParserFactory --> MD
+ParserFactory --> ReST
+ParserFactory --> OTHER_FORMATTER
+
+rectangle "Command Line Interface" {
+  usecase "python -m doctopi" as cmd
+}
+
+artifact Documentation
+
+MD --> cmd
+ReST --> cmd
+OTHER_FORMATTER --> cmd
+
+cmd --> u
+u -> Documentation
+
+@enduml

@@ -2,7 +2,13 @@
 
 ## Overview
 
-Extensible Python library for docs-as-code
+Extensible Python library for docs-as-code. DoctoPi is a CLI and API used for parsing source code and generating various formats of documentation.
+
+### How it works
+
+Various adapters are configured to parse source code and convert docstrings to DoctoPi classes. Using the CLI, users can customize which adapters and formatters to use to generate the desired output.
+
+![DoctoPi Flow]()
 
 ## Usage
 
@@ -142,6 +148,20 @@ A lot of off-the-shelf documentation libraries can parse code and generate some 
 > Command Method is Behavioral Design Pattern that encapsulates a request as an object, thereby allowing for the parameterization of clients with different requests and the queuing or logging of requests. Basically, it encapsulates all the information needed to perform an action or trigger an event. [4]
 
 DoctoPi creates various command classes to encapsulate the generation of various elements of the source code. For example, a typical function docstring may include a summary, parameters, exceptions raised, and any data returned. For example, by encapsulating each of those pieces as a Command, the `MarkdownBuilder` can execute commands in a provided order, allowing the director to reorder and/or remove various elements. The `MarkdownBuilder` class has arrays of commands for functions, classes, and entire files to customize which pieces are documented and how they're organized. The commands specific to the markdown builder are documented [here](src/doctopi/formatter/markdown/cmd/README.md).
+
+### Class Diagrams
+
+#### DoctoPi Types
+
+![DoctoPi Types PlantUML]()
+
+#### DoctoPi Parser
+
+![DoctoPi Parser PlantUML]()
+
+#### DoctoPi Formatter
+
+![DoctoPi Formatter PlantUML]()
 
 ## References
 
