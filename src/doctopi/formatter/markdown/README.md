@@ -2,18 +2,9 @@
 markdown
 ========
 
-Contents
-========
+# \_\_init\_\_
 
-* [__init__](#__init__)
-* [markdown_builder](#markdown_builder)
-	* [Overview](#overview)
-	* [Classes](#classes)
-		* [MarkdownBuilder](#markdownbuilder)
-
-# __init__
-
-# markdown_builder
+# markdown\_builder
 
 ## Overview
 
@@ -76,7 +67,7 @@ def build(self):
 ```
 
 Generate the markdown by executing the provided commands
-##### build_dir
+##### build\_dir
 
 
 ```python
@@ -93,7 +84,7 @@ provided commands
 |level|int|Starting heading level to build the provided file's documentation|
 |parsed_dir|DocDir|parsed source directory|
 
-##### build_single_file
+##### build\_single\_file
 
 
 ```python
@@ -110,7 +101,7 @@ provided commands
 |level|int|Starting heading level to build the provided file's documentation|
 |parsed_file|DocFile|parsed source file|
 
-##### add_file_command
+##### add\_file\_command
 
 
 ```python
@@ -132,7 +123,7 @@ to format and generate documentation in markdown.
 | :--- | :--- |
 |MarkdownBuilder|This MarkdownBuilder|
 
-##### add_class_commands
+##### add\_class\_commands
 
 
 ```python
@@ -154,7 +145,7 @@ to format and generate documentation in markdown.
 | :--- | :--- |
 |MarkdownBuilder|This MarkdownBuilder|
 
-##### add_function_commands
+##### add\_function\_commands
 
 
 ```python
@@ -176,7 +167,7 @@ to format and generate documentation in markdown.
 | :--- | :--- |
 |MarkdownBuilder|This MarkdownBuilder|
 
-##### configure_metadata
+##### configure\_metadata
 
 
 ```python
@@ -198,7 +189,7 @@ Configure Markdown file metadata
 | :--- | :--- |
 |MarkdownBuilder|This MarkdownBuilder|
 
-##### configure_src
+##### configure\_src
 
 
 ```python
@@ -220,7 +211,7 @@ style
 | :--- | :--- |
 |MarkdownBuilder|This MarkdownBuilder object.|
 
-##### configure_io
+##### configure\_io
 
 
 ```python
@@ -245,7 +236,7 @@ file path/name.
 | :--- | :--- |
 |MarkdownBuilder|This MarkdownBuilder object.|
 
-##### enable_toc
+##### enable\_toc
 
 
 ```python
@@ -263,9 +254,9 @@ Configure the heading depth for the table and the title.
 
 ###### Raises
 
-|Name|Type|Description|
-| :--- | :--- | :--- |
-||ValueError|If the toc_depth isn't between [1,6]|
+|Type|Description|
+| :--- | :--- |
+|ValueError|If the toc_depth isn't between [1,6]|
 
 ###### Return
 
@@ -292,10 +283,10 @@ the Table of contents, use MarkdownBuilder.enable_toc()
 
 ###### Raises
 
-|Name|Type|Description|
-| :--- | :--- | :--- |
-||ValueError|If the provided attribute does exist but isn't a boolean.|
-||AttributeError|If the provided attribute does not exist.|
+|Type|Description|
+| :--- | :--- |
+|ValueError|If the provided attribute does exist but isn't a boolean.|
+|AttributeError|If the provided attribute does not exist.|
 
 ###### Return
 
@@ -303,7 +294,7 @@ the Table of contents, use MarkdownBuilder.enable_toc()
 | :--- | :--- |
 |MarkdownBuilder|This MarkdownBuilder|
 
-##### align_tables
+##### align\_tables
 
 
 ```python
@@ -320,9 +311,9 @@ right.
 
 ###### Raises
 
-|Name|Type|Description|
-| :--- | :--- | :--- |
-||ValueError|Invalid alignment string provided.|
+|Type|Description|
+| :--- | :--- |
+|ValueError|Invalid alignment string provided.|
 
 ###### Return
 

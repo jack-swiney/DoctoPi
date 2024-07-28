@@ -108,7 +108,7 @@ class MarkdownSettings:
     # Generic
     src_language: str = ""
 
-     # Tables
+    # Tables
     table_align: str = "left"  # left, center, or right
 
     # Enabled content

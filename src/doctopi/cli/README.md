@@ -2,20 +2,7 @@
 cli
 ===
 
-Contents
-========
-
-* [__init__](#__init__)
-	* [Overview](#overview)
-	* [Classes](#classes)
-		* [DoctoPiConfigError](#doctopiconfigerror)
-	* [Functions](#functions)
-		* [cli](#cli)
-		* [parse_settings](#parse_settings)
-		* [combine_configs](#combine_configs)
-		* [ini_to_bool](#ini_to_bool)
-
-# __init__
+# \_\_init\_\_
 
 ## Overview
 
@@ -56,7 +43,7 @@ Command-Line Interface (CLI)
 | :--- | :--- |
 |argparse.Namespace|Parsed arguments from CLI|
 
-### parse_settings
+### parse\_settings
 
 
 ```python
@@ -77,15 +64,35 @@ Combine INI config settings with parsed arguments from CLI
 | :--- | :--- |
 |argparse.Namespace|Combined INI config and CLI arguments|
 
-### combine_configs
+### combine\_configs
 
 
 ```python
 def combine_configs(default_config: configparser.ConfigParser, override_config: configparser.ConfigParser) -> configparser.ConfigParser:
 ```
 
+Combine two config parsers, favoring the `override_config`
 
-### ini_to_bool
+#### Args
+
+|Name|Type|Description|
+| :--- | :--- | :--- |
+|default_config|configparser.ConfigParser|Config containing default values. Any args in the `override_config` will override these args.|
+|override_config|configparser.ConfigParser|Config will be combined with the `default_config`, overriding any common arguments.|
+
+#### Raises
+
+|Type|Description|
+| :--- | :--- |
+|DoctoPiConfigError|If the `override_config` contains any sections or keys not in `default_config`.|
+
+#### Return
+
+|Type|Description|
+| :--- | :--- |
+|configparser.ConfigParser|_description_|
+
+### ini\_to\_bool
 
 
 ```python
@@ -102,9 +109,9 @@ Convert ini value to python bool
 
 #### Raises
 
-|Name|Type|Description|
-| :--- | :--- | :--- |
-||ValueError|provided value was not "yes" or "no"|
+|Type|Description|
+| :--- | :--- |
+|ValueError|provided value was not "yes" or "no"|
 
 #### Return
 

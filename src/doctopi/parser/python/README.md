@@ -2,17 +2,7 @@
 python
 ======
 
-Contents
-========
-
-* [docspec_adapter](#docspec_adapter)
-	* [Overview](#overview)
-	* [Classes](#classes)
-		* [DocspecAdapter](#docspecadapter)
-* [__init__](#__init__)
-	* [Overview](#overview)
-
-# docspec_adapter
+# docspec\_adapter
 
 ## Overview
 
@@ -57,7 +47,7 @@ Constructor
 
 #### Methods
 
-##### parse_file
+##### parse\_file
 
 
 ```python
@@ -78,7 +68,7 @@ representing the contents/docstrings.
 | :--- | :--- |
 |DocFile|Representation of the file contents and docstrings|
 
-##### parse_dir
+##### parse\_dir
 
 
 ```python
@@ -99,7 +89,7 @@ module
 | :--- | :--- |
 |DocDir|Collection of DocFile and DocDirs  mapping the provided directory to the doctopi documentation types.|
 
-##### module_members
+##### module\_members
 
 
 ```python
@@ -121,7 +111,7 @@ into a list of doctopi types.
 | :--- | :--- |
 |Callable|Decorators return a Callable that wraps the function or class it decorates. See below for details on what is returned by the Callable itself.|
 
-##### get_module_docstring
+##### get\_module\_docstring
 
 
 ```python
@@ -142,7 +132,7 @@ its docstring
 | :--- | :--- |
 |Docstring|Python module's docstring|
 
-##### _get_module_docstring
+##### \_get\_module\_docstring
 
 
 ```python
@@ -164,7 +154,7 @@ docstring of the module
 | :--- | :--- |
 |Docstring|Python module's docstring|
 
-##### get_module_classes
+##### get\_module\_classes
 
 
 ```python
@@ -185,7 +175,7 @@ its classes
 | :--- | :--- |
 |List[ClassDeclaration]|list of classes in the Python module|
 
-##### _get_module_classes
+##### \_get\_module\_classes
 
 
 ```python
@@ -207,7 +197,7 @@ classes in the Python module
 | :--- | :--- |
 |List[ClassDeclaration]|list of classes in the Python module|
 
-##### get_module_functions
+##### get\_module\_functions
 
 
 ```python
@@ -228,7 +218,7 @@ its functions
 | :--- | :--- |
 |List[FunctionDeclaration]|list of functions in the Python module|
 
-##### _get_module_functions
+##### \_get\_module\_functions
 
 
 ```python
@@ -250,7 +240,7 @@ functions in the Python module
 | :--- | :--- |
 |List[FunctionDeclaration]|list of functions in Python module|
 
-##### _docspec_to_doctopi_docstring
+##### \_docspec\_to\_doctopi\_docstring
 
 
 ```python
@@ -271,7 +261,7 @@ Convert a docspec.Docstring type into a doctopi.Docstring
 | :--- | :--- |
 |Docstring|doctopi representation of a docstring|
 
-##### _docspec_to_doctopi_function
+##### \_docspec\_to\_doctopi\_function
 
 
 ```python
@@ -292,7 +282,7 @@ doctopi.FunctionDeclaration
 | :--- | :--- |
 |FunctionDeclaration|doctopi representation of a function|
 
-##### _docspec_to_doctopi_class
+##### \_docspec\_to\_doctopi\_class
 
 
 ```python
@@ -313,7 +303,7 @@ convert a docspec.Class type into a doctopi.ClassDeclaration
 | :--- | :--- |
 |ClassDeclaration|doctopi representation of a class|
 
-##### _parse_function_signature
+##### \_parse\_function\_signature
 
 
 ```python
@@ -334,7 +324,7 @@ function's signature like it's written in the source code.
 | :--- | :--- |
 |str|function's signature|
 
-##### _parse_class_signature
+##### \_parse\_class\_signature
 
 
 ```python
@@ -355,7 +345,7 @@ class's signature like it's written in the source code.
 | :--- | :--- |
 |str|class's signature|
 
-##### _parse_access_type
+##### \_parse\_access\_type
 
 
 ```python
@@ -379,7 +369,7 @@ However, according to PEP8:
 | :--- | :--- |
 |AccessType|Enum of public, private, or protected.|
 
-# __init__
+# \_\_init\_\_
 
 ## Overview
 

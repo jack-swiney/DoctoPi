@@ -2,41 +2,7 @@
 cmd
 ===
 
-Contents
-========
-
-* [__init__](#__init__)
-	* [Overview](#overview)
-* [class_attr_commands](#class_attr_commands)
-	* [Overview](#overview)
-	* [Classes](#classes)
-		* [MarkdownClassAttrCommand](#markdownclassattrcommand)
-		* [MarkdownConstructorCommand](#markdownconstructorcommand)
-		* [MarkdownClassVarCommand](#markdownclassvarcommand)
-		* [MarkdownInstanceVarCommand](#markdowninstancevarcommand)
-		* [MarkdownMethodsCommand](#markdownmethodscommand)
-* [function_command](#function_command)
-	* [Overview](#overview)
-	* [Classes](#classes)
-		* [MarkdownFunctionCommand](#markdownfunctioncommand)
-* [param_table_command](#param_table_command)
-	* [Overview](#overview)
-	* [Classes](#classes)
-		* [MarkdownParamTableCommand](#markdownparamtablecommand)
-* [docstring_commands](#docstring_commands)
-	* [Overview](#overview)
-	* [Classes](#classes)
-		* [MarkdownDocstringCommand](#markdowndocstringcommand)
-		* [MarkdownArgsCommand](#markdownargscommand)
-		* [MarkdownRaisesCommand](#markdownraisescommand)
-		* [MarkdownReturnsCommand](#markdownreturnscommand)
-* [class_command](#class_command)
-	* [Overview](#overview)
-	* [Classes](#classes)
-		* [MarkdownClassCommand](#markdownclasscommand)
-		* [MarkdownInnerClassCommand](#markdowninnerclasscommand)
-
-# __init__
+# \_\_init\_\_
 
 ## Overview
 
@@ -44,7 +10,7 @@ Contents
 Commands used by the MarkdownBuilder to generate markdown documentation
 
 
-# class_attr_commands
+# class\_attr\_commands
 
 ## Overview
 
@@ -88,9 +54,9 @@ Constructor
 
 ##### Raises
 
-|Name|Type|Description|
-| :--- | :--- | :--- |
-||ValueError|The heading level must be between [1,6]|
+|Type|Description|
+| :--- | :--- |
+|ValueError|The heading level must be between [1,6]|
 
 #### Member Variables
 
@@ -219,7 +185,7 @@ def execute(self):
 ```
 
 Add class method documentation to the markdown generator
-# function_command
+# function\_command
 
 ## Overview
 
@@ -269,7 +235,7 @@ def execute(self):
 ```
 
 Add function documentation to the markdown generator
-# param_table_command
+# param\_table\_command
 
 ## Overview
 
@@ -316,7 +282,7 @@ def execute(self):
 ```
 
 Add param table to the markdown generator
-# docstring_commands
+# docstring\_commands
 
 ## Overview
 
@@ -437,7 +403,7 @@ def execute(self):
 ```
 
 Add function returns documentation to the markdown generator
-# class_command
+# class\_command
 
 ## Overview
 

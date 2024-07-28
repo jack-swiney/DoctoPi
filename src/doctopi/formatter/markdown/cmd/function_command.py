@@ -53,7 +53,7 @@ class MarkdownFunctionCommand(Command):
             return
 
         # Header with function signature
-        self.md_utils.new_header(level=self.level, title=self.func.name)
+        self.md_utils.new_header(level=self.level, title=self.func.name.replace('_', '\\_'))
         self.md_utils.insert_code(
             self.func.signature,
             language=self.settings.src_language

@@ -11,20 +11,20 @@ from typing import Dict, List, Type
 # This package imports
 from doctopi.cli import cli, parse_settings, DoctoPiConfigError
 from doctopi.formatter.markdown.markdown_builder import MarkdownBuilder
-from doctopi.formatter.markdown.cmd import *  # pylint: disable = wildcard-import
+from doctopi.formatter.markdown.cmd import *  # pylint: disable = wildcard-import # noqa F403
 
 
 MARKDOWN_CMDS: Dict[str, Type] = {
-    "classes": MarkdownClassCommand,
-    "functions": MarkdownFunctionCommand,
-    "constructor": MarkdownConstructorCommand,
-    "inner_classes": MarkdownInnerClassCommand,
-    "class_variables": MarkdownClassVarCommand,
-    "instance_variables": MarkdownInstanceVarCommand,
-    "methods": MarkdownMethodsCommand,
-    "arguments": MarkdownArgsCommand,
-    "raises": MarkdownRaisesCommand,
-    "returns": MarkdownReturnsCommand
+    "classes": MarkdownClassCommand,  # noqa: F405
+    "functions": MarkdownFunctionCommand,  # noqa: F405
+    "constructor": MarkdownConstructorCommand,  # noqa: F405
+    "inner_classes": MarkdownInnerClassCommand,  # noqa: F405
+    "class_variables": MarkdownClassVarCommand,  # noqa: F405
+    "instance_variables": MarkdownInstanceVarCommand,  # noqa: F405
+    "methods": MarkdownMethodsCommand,  # noqa: F405
+    "arguments": MarkdownArgsCommand,  # noqa: F405
+    "raises": MarkdownRaisesCommand,  # noqa: F405
+    "returns": MarkdownReturnsCommand  # noqa: F405
 }
 """Map INI config strings for commands to MarkdownCommand types"""
 
@@ -88,7 +88,7 @@ def markdown(args: argparse.Namespace):
 
     # Toggle markdown settings
     for config in ["constructors", "class_vars", "instance_vars", "methods",
-                    "inner_classes", "file_overview", "public_only"]:
+                   "inner_classes", "file_overview", "public_only"]:
         if not getattr(args, config, True):
             builder.toggle(config)
 

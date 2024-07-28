@@ -2,23 +2,7 @@
 types
 =====
 
-Contents
-========
-
-* [__init__](#__init__)
-	* [Overview](#overview)
-	* [Classes](#classes)
-		* [AccessType](#accesstype)
-		* [NameDescriptionType](#namedescriptiontype)
-		* [Docstring](#docstring)
-		* [FunctionDeclaration](#functiondeclaration)
-		* [ClassDeclaration](#classdeclaration)
-		* [DocFile](#docfile)
-		* [DocDir](#docdir)
-		* [Command](#command)
-		* [MarkdownSettings](#markdownsettings)
-
-# __init__
+# \_\_init\_\_
 
 ## Overview
 
@@ -64,7 +48,7 @@ params, returns, members, etc.
 
 #### Methods
 
-##### __post_init__
+##### \_\_post\_init\_\_
 
 
 ```python
@@ -72,7 +56,7 @@ def __post_init__(self):
 ```
 
 Clean the input types of newlines
-##### _strip_newlines
+##### \_strip\_newlines
 
 
 ```python

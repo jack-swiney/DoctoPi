@@ -18,6 +18,7 @@ from doctopi.parser import Parser
 from doctopi.parser.parser_factory import ParserFactory
 from doctopi.types import Command, DocDir, DocFile, MarkdownSettings
 
+
 class MarkdownBuilder:  # pylint: disable = too-many-instance-attributes
     """Build a Markdown formatter and generate documentation. Uses the
     builder pattern to handle large amounts of configuration, and the
@@ -82,7 +83,7 @@ class MarkdownBuilder:  # pylint: disable = too-many-instance-attributes
         self.function_commands: List[Type[MarkdownDocstringCommand]] = []
 
         # Table of contents
-        self.toc_depth: int = 1 # Should be 1-6
+        self.toc_depth: int = 1  # Should be 1-6
         self.toc_title: str = "Contents"
 
         # Tables
@@ -106,7 +107,7 @@ class MarkdownBuilder:  # pylint: disable = too-many-instance-attributes
 
         # Parse the provided source path
         parsed_docs: Union[DocFile, DocDir] = self.parser.parse_file(self.src) \
-             if os.path.isfile(self.src) else self.parser.parse_dir(self.src)
+            if os.path.isfile(self.src) else self.parser.parse_dir(self.src)
 
         # Build a single file if it's a single file
         if isinstance(parsed_docs, DocFile):
@@ -122,7 +123,6 @@ class MarkdownBuilder:  # pylint: disable = too-many-instance-attributes
 
         # Output the file.
         md_utils.create_md_file()
-
 
     def build_dir(self, md_utils: MdUtils, level: int, parsed_dir: DocDir):
         """Generate the markdown of a directory by executing the
@@ -142,7 +142,7 @@ class MarkdownBuilder:  # pylint: disable = too-many-instance-attributes
 
         for doc in parsed_dir.files:
             # Create a header for the name of the individual file
-            md_utils.new_header(level=file_level-1, title=doc.name)
+            md_utils.new_header(level=file_level-1, title=doc.name.replace('_', '\\_'))
             # Build each individual file
             self.build_single_file(md_utils=md_utils, level=file_level, parsed_file=doc)
 
@@ -190,11 +190,11 @@ class MarkdownBuilder:  # pylint: disable = too-many-instance-attributes
                 # Pass configuration to the command and execute
                 for class_ in parsed_file.classes:
                     command(md_utils=md_utils,
-                            settings = settings,
+                            settings=settings,
                             level=level+1,
-                            class_ = class_,
-                            class_cmds = self.class_commands,
-                            function_cmds = self.function_commands).execute()
+                            class_=class_,
+                            class_cmds=self.class_commands,
+                            function_cmds=self.function_commands).execute()
 
             # Create a "Functions" section
             elif issubclass(command, MarkdownFunctionCommand):
@@ -204,10 +204,10 @@ class MarkdownBuilder:  # pylint: disable = too-many-instance-attributes
                 # Pass configuration to the command and execute
                 for function in parsed_file.functions:
                     command(md_utils=md_utils,
-                            settings = settings,
+                            settings=settings,
                             level=level+1,
-                            func = function,
-                            cmds = self.function_commands).execute()
+                            func=function,
+                            cmds=self.function_commands).execute()
 
     def add_file_command(self, command: Type[Command]) -> MarkdownBuilder:
         """Add a Markdown generation command. Upon calling
@@ -336,7 +336,7 @@ class MarkdownBuilder:  # pylint: disable = too-many-instance-attributes
         Returns:
             MarkdownBuilder: This MarkdownBuilder.
         """
-        if not 1 <=  toc_depth <= 6:
+        if not 1 <= toc_depth <= 6:
             raise ValueError("Table of contents depth must be between 1 & 6.")
 
         self.table_of_contents = True

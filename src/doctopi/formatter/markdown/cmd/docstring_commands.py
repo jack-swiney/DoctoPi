@@ -81,15 +81,8 @@ class MarkdownReturnsCommand(MarkdownDocstringCommand):
     """
     def execute(self):
         """Add function returns documentation to the markdown generator"""
-        if not self.docstring.returns:
-            return
-
-        self.md_utils.new_header(level=self.level, title="Return")
-        contents = ["Type", "Description"]
-        contents.extend([
-            self.docstring.returns.type, self.docstring.returns.description
-        ])
-        self.md_utils.new_table(columns=2,
-                                rows=2,
-                                text=contents,
-                                text_align=self.settings.table_align)
+        if self.docstring.returns:
+            self.md_utils.new_header(level=self.level, title="Return")
+            MarkdownParamTableCommand(self.md_utils,
+                                      self.settings,
+                                      [self.docstring.returns]).execute()

@@ -32,11 +32,26 @@ class MarkdownParamTableCommand(Command):
 
     def execute(self):
         """Add param table to the markdown generator"""
+        # Not all params have names. If none have names, remove that column
         contents = ["Name", "Type", "Description"]
+        if not any(row.name for row in self.table_rows):
+            contents = contents[1:]
+
+        name_col = len(contents) > 2
+
+        # Flatten the table rows into the contents array
         for row in self.table_rows:
-            contents.extend([
-                row.name, row.type, row.description
-            ])
-        self.md_utils.new_table(columns=3, rows=len(self.table_rows)+1,
+            if name_col:
+                contents.extend([
+                    row.name, row.type, row.description
+                ])
+            else:
+                contents.extend([
+                    row.type, row.description
+                ])
+
+        # Create the table in markdown
+        self.md_utils.new_table(columns=3 if name_col else 2,
+                                rows=len(self.table_rows)+1,
                                 text=contents,
                                 text_align=self.settings.table_align)

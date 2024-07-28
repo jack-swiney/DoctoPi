@@ -2,19 +2,7 @@
 parser
 ======
 
-Contents
-========
-
-* [parser_factory](#parser_factory)
-	* [Overview](#overview)
-	* [Functions](#functions)
-		* [ParserFactory](#parserfactory)
-* [__init__](#__init__)
-	* [Overview](#overview)
-	* [Classes](#classes)
-		* [Parser](#parser)
-
-# parser_factory
+# parser\_factory
 
 ## Overview
 
@@ -52,7 +40,7 @@ Factory Method to get a source code parser.
 | :--- | :--- |
 |Parser|Parser subclass specific to the provided language and parser type.|
 
-# __init__
+# \_\_init\_\_
 
 ## Overview
 
@@ -78,7 +66,7 @@ software design pattern to adapt third-party tools and libraries
 like Docspec, Doxygen, and Sphinx to a common documentation parser.
 #### Methods
 
-##### parse_file
+##### parse\_file
 
 
 ```python
@@ -100,7 +88,7 @@ DocFile object.
 | :--- | :--- |
 |DocFile|Representation of the file contents and docstrings.|
 
-##### parse_dir
+##### parse\_dir
 
 
 ```python
