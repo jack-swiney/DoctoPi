@@ -56,7 +56,7 @@ class MarkdownBuilder:  # pylint: disable = too-many-instance-attributes
             documented. Default is True.
         inner_classes (bool): Toggle inner classes to be documented.
             Default is True.
-        member_functions (bool): Toggle member functions to be
+        methods (bool): Toggle member functions to be
             documented. Default is True.
         file_overview (bool): Toggle file overview to be documented.
             Default is True.
@@ -94,7 +94,7 @@ class MarkdownBuilder:  # pylint: disable = too-many-instance-attributes
         self.class_vars: bool = True
         self.instance_vars: bool = True
         self.inner_classes: bool = True
-        self.member_functions: bool = True
+        self.methods: bool = True
         self.file_overview: bool = True
         self.public_only: bool = True
 
@@ -175,7 +175,7 @@ class MarkdownBuilder:  # pylint: disable = too-many-instance-attributes
             class_vars=self.class_vars,
             instance_vars=self.instance_vars,
             inner_classes=self.inner_classes,
-            member_functions=self.member_functions,
+            methods=self.methods,
             file_overview=self.file_overview,
             public_only=self.public_only
         )

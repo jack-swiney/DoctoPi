@@ -1,6 +1,7 @@
 include CONTRIBUTING.md
 include LICENSE
 include README.md
+include src/doctopi/cli/default.ini
 
 recursive-include tests *
 recursive-exclude * __pycache__

@@ -182,9 +182,9 @@ class MarkdownMethodsCommand(MarkdownClassAttrCommand):
     """
     def execute(self):
         """Add class method documentation to the markdown generator"""
-        if self.class_.member_functions and self.settings.member_functions:
+        if self.class_.methods and self.settings.methods:
             self.md_utils.new_header(level=self.level, title="Methods")
-            for member_function in self.class_.member_functions:
+            for member_function in self.class_.methods:
                 MarkdownFunctionCommand(md_utils=self.md_utils,
                                         settings=self.settings,
                                         level=self.level+1,
