@@ -11,7 +11,7 @@ from typing import Union
 from doctopi.types import (DocDir, DocFile)
 
 
-class Parser(metaclass=abc.ABCMeta):
+class Parser(abc.ABC):
     """Generic source-code documentation parser. This is an abstract
     base class and is intended to be extended for various programming
     languages, and docstring flavors. The Parser will use the Adapter

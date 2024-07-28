@@ -54,6 +54,11 @@ class DocspecAdapter(Parser):
         # Parse the module
         module: Module = parse_python_module(file)
 
+        # docspec_python converts __init__ files to the name of the
+        # package, which makes sense but doesn't work for this adapter
+        if file.endswith("__init__.py"):
+            module.name = "__init__"
+
         # Instantiate and return a DocFile using helper methods
         return DocFile(
             name=module.name,
@@ -324,33 +329,52 @@ class DocspecAdapter(Parser):
         Returns:
             ClassDeclaration: doctopi representation of a class
         """
+        class_variables = []
         member_variables = []
         member_functions = []
         member_classes = []
+        constructor = None
 
         # Go through all of the class members
         for member in cls.members:
 
             # Convert member functions
             if isinstance(member, Function):
-                member_functions.append(self._docspec_to_doctopi_function(member))
+                function_declaration = self._docspec_to_doctopi_function(member)
+                # Separate the constructor from the member functions
+                if function_declaration.name == "__init__":
+                    constructor = function_declaration
+                else:
+                    member_functions.append(function_declaration)
 
             # Convert subclasses
             elif isinstance(member, Class):
-                member_functions.append(self._docspec_to_doctopi_class(member))
+                member_classes.append(self._docspec_to_doctopi_class(member))
 
-            # Convert member variables
+            # Convert class variables
             elif isinstance(member, Variable):
-                member_functions.append(NameDescriptionType(
+                class_variables.append(NameDescriptionType(
                     name=member.name,
                     type=member.datatype
+                ))
+
+        # Convert member variables from docstring
+        if cls.docstring:
+            parsed_docstring = parse(cls.docstring.content, style=self.docstring_style)
+            for member_var in parsed_docstring.params:
+                member_variables.append(NameDescriptionType(
+                    name=member_var.arg_name,
+                    type=member_var.type_name,
+                    description=member_var.description
                 ))
 
         # Convert the docspec.Class to doctopi.ClassDeclaration
         return ClassDeclaration(
             name=cls.name,
             signature=self._parse_class_signature(cls),
+            constructor=constructor,
             docstring=self._docspec_to_doctopi_docstring(cls.docstring),
+            class_variables=class_variables,
             member_variables=member_variables,
             member_functions=member_functions,
             subclasses=member_classes
@@ -432,9 +456,10 @@ class DocspecAdapter(Parser):
         # Extract decorators
         decorators = cls.decorations or []
         decorators_str = "\n".join(f"@{dec.name}" for dec in decorators)
+        dec_newline = "\n" if decorators_str else ""
 
         # Construct the class signature
-        signature = f"{decorators_str}\nclass {class_name}{bases_and_meta}:"
+        signature = f"{decorators_str}{dec_newline}class {class_name}{bases_and_meta}:"
 
         return signature
 

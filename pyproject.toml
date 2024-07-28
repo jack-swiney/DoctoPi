@@ -20,7 +20,8 @@ license = {text = "Apache Software License 2.0"}
 dependencies = [
   "docspec",
   "docspec_python",
-  "docstring_parser"
+  "docstring_parser",
+  "mdutils"
 ]
 
 [project.optional-dependencies]

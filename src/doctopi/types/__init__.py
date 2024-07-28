@@ -1,6 +1,9 @@
 """Common types used by the doctopi package"""
+# pylint: disable = too-many-instance-attributes
+
 # Built-in imports
 from __future__ import annotations
+from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
 import os
@@ -23,6 +26,23 @@ class NameDescriptionType:
     description: str = ""
     type: str = ""
 
+    def __post_init__(self):
+        """Clean the input types of newlines"""
+        self.name = self._strip_newlines(self.name)
+        self.description = self._strip_newlines(self.description)
+        self.type = self._strip_newlines(self.type)
+
+    def _strip_newlines(self, line: str) -> str:
+        """Strip any newlines from a string
+
+        Args:
+            line (str): any string
+
+        Returns:
+            str: provided string with newlines removed
+        """
+        return ' '.join(line.splitlines()) if line else line
+
 
 @dataclass
 class Docstring:
@@ -43,11 +63,13 @@ class FunctionDeclaration:
 
 
 @dataclass
-class ClassDeclaration:
+class ClassDeclaration:  # pylint: disable = too-many-instance-attributes
     """Doctopi representation of a class"""
     name: str
     signature: str
     docstring: Docstring = None
+    constructor: FunctionDeclaration = None
+    class_variables: List[NameDescriptionType] = field(default_factory=list)
     member_variables: List[NameDescriptionType] = field(default_factory=list)
     member_functions: List[FunctionDeclaration] = field(default_factory=list)
     subclasses: List[ClassDeclaration] = field(default_factory=list)
@@ -70,3 +92,31 @@ class DocDir:
     path: Union[str, bytes, os.PathLike]
     files: List[DocFile] = field(default_factory=list)
     subdirs: List[DocDir] = field(default_factory=list)
+
+
+# pylint: disable = too-few-public-methods
+class Command(ABC):
+    """Generic class for the command design pattern"""
+    @abstractmethod
+    def execute(self):
+        """Execute the command"""
+
+
+@dataclass
+class MarkdownSettings:
+    """Dataclass to hold Markdown content settings"""
+    # Generic
+    src_language: str = ""
+
+     # Tables
+    table_align: str = "left"  # left, center, or right
+
+    # Enabled content
+    table_of_contents: bool = False
+    constructors: bool = True
+    class_vars: bool = True
+    instance_vars: bool = True
+    inner_classes: bool = True
+    member_functions: bool = True
+    file_overview: bool = True
+    public_only: bool = True
