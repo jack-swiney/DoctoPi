@@ -1,0 +1,114 @@
+@startuml DoctoPi Formatter
+
+
+namespace doctopi.formatter.markdown.markdown_builder {
+    class MarkdownBuilder {
+        src_language: str
+        parser: Parser
+        src: str
+        output: str
+        commands: List<Command>
+        recursive: bool
+        title: str
+        author: str
+        toc_depth: int
+        toc_title: str
+        table_align: str
+        table_of_contents: bool
+        constructors: bool
+        class_vars: bool
+        instance_vars: bool
+        inner_classes: bool
+        methods: bool
+        file_overview: bool
+        public_only: bool
+        build()
+        build_dir(md_utils: MdUtils, level: int, parsed_dir: DocDir)
+        build_single_file(md_utils: MdUtils, level: int, parsed_file: DocFile)
+        add_file_command(command: Type[Command]): MarkdownBuilder
+        add_class_commands(command: Type[MarkdownClassAttrCommand]): MarkdownBuilder
+        add_function_commands(command: Type[MarkdownDocstrCommand]): MarkdownBuilder
+        configure_metadata(title: str, author: str): MarkdownBuilder
+        configure_src(language: str, style: str): MarkdownBuilder
+        configure_io(src: str, output: str, recursive: bool): MarkdownBuilder
+        enable_toc(toc_depth: int, title: str): MarkdownBuilder
+        toggle(attr: str): MarkdownBuilder
+        align_tables(alignment: str): MarkdownBuilder
+    }
+}
+
+doctopi.types.Command <|-- doctopi.formatter.markdown.cmd.MarkdownClassAttrCommand
+doctopi.types.Command <|-- doctopi.formatter.markdown.cmd.MarkdownDocstringCommand
+doctopi.types.Command <|-- doctopi.formatter.markdown.cmd.MarkdownFunctionCommand
+
+namespace doctopi.formatter.markdown.cmd {
+
+    MarkdownClassAttrCommand <|-- MarkdownConstructorCommand
+    MarkdownClassAttrCommand <|-- MarkdownClassVarCommand
+    MarkdownClassAttrCommand <|-- MarkdownInstanceVarCommand
+    MarkdownClassAttrCommand <|-- MarkdownMethodsCommand
+    MarkdownClassAttrCommand <|-- MarkdownClassCommand
+    MarkdownClassAttrCommand <|-- MarkdownInnerClassCommand
+
+    class MarkdownClassAttrCommand <<Command>> {
+        md_utils: MdUtils
+        settings: MarkdownSettings
+        level: int
+        class_: ClassDeclaration
+        class_cmds: List<Type<MarkdownClassAttrCommand>>
+        function_cmds: List<Type<MarkdownDocstringcommand>>
+    }
+
+    class MarkdownConstructorCommand <<MarkdownClassAttrCommand>> {
+        execute()
+    }
+
+    class MarkdownClassVarCommand <<MarkdownClassAttrCommand>> {
+        execute()
+    }
+
+    class MarkdownInstanceVarCommand <<MarkdownClassAttrCommand>> {
+        execute()
+    }
+
+    class MarkdownMethodsCommand <<MarkdownClassAttrCommand>> {
+        execute()
+    }
+
+    class MarkdownClassCommand <<MarkdownClassAttrCommand>> {
+        execute()
+    }
+
+    class MarkdownInnerClassCommand <<MarkdownClassAttrCommand>> {
+        execute()
+    }
+
+    class MarkdownDocstringCommand <<Command>> {
+        md_utils: MdUtils
+        settings: MarkdownSettings
+        level: int
+        docstring: Docstring
+    }
+
+    MarkdownDocstringCommand <|-- MarkdownArgsCommand
+    MarkdownDocstringCommand <|-- MarkdownRaisesCommand
+    MarkdownDocstringCommand <|-- MarkdownReturnsCommand
+
+    class MarkdownArgsCommand <<MarkdownDocstringCommand>> {
+        execute()
+    }
+
+    class MarkdownRaisesCommand <<MarkdownDocstringCommand>> {
+        execute()
+    }
+
+    class MarkdownReturnsCommand <<MarkdownDocstringCommand>> {
+        execute()
+    }
+
+    class MarkdownFunctionCommand <<Command>> {
+        execute()
+    }
+}
+
+@enduml

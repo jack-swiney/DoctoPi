@@ -1,0 +1,75 @@
+@startuml DoctoPi Types
+
+
+namespace doctopi.types {
+    class AccessType <<Enum>> {
+        PUBLIC = 1
+        PROTECTED = 2
+        PRIVATE = 3
+    }
+
+    class NameDescriptionType {
+        name: str
+        description: str
+        type: str
+    }
+
+    class Docstr {
+        summary: str
+        args: List<NameDescriptionType>
+        returns: NameDescriptionType
+        raises: List<NameDescriptionType>
+    }
+
+    class FunctionDeclaration {
+        name: str
+        signature: str
+        access: AccessType
+        docstr: Docstr
+    }
+
+    class ClassDeclaration {
+        name: str
+        signature: str
+        docstr: Docstr
+        constructor: FunctionDeclaration
+        class_variables: List<NameDescriptionType>
+        member_variables: List<NameDescriptionType>
+        methods: List<FunctionDeclaration>
+        subclasses: List<ClassDelcaration>
+    }
+
+    class DocFile {
+        name: str
+        path: str
+        docstr: Docstr
+        classes: List<ClassDeclaration>
+        functions: List<FunctionDeclaration>
+    }
+
+    class DocDir {
+        name: str
+        path: str
+        files: List<DocFile>
+        subdirs: List<DocDir>
+    }
+
+    class Command {
+        execute()
+    }
+
+    class MarkdownSettings {
+        src_language: str
+        table_align: str
+        table_of_contents: bool
+        constructors: bool
+        class_vars: bool
+        instance_vars: bool
+        inner_classes: bool
+        methods: bool
+        file_overview: bool
+        public_only: bool
+    }
+}
+
+@enduml

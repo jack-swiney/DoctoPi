@@ -1,0 +1,29 @@
+@startuml DoctoPi Parser
+
+
+namespace doctopi.parser {
+
+    class Parser {
+        {abstract} parse_file(file: str): DocFile
+        {abstract} parse_dir(root: str): DocDir
+    }
+
+    class ParserFactory {
+        ParserFactory(language: str, style: str): Parser
+    }
+}
+
+doctopi.parser.Parser <|-- doctopi.parser.python.docspec_adapter.DocspecAdapter
+
+namespace doctopi.parser.python.docspec_adapter {
+    class DocspecAdapter <<Parser>> {
+        docstring_style: DocstringStyle
+        parse_file(file: str): DocFile
+        parse_dir(root: str): DocDir
+        get_module_docstr(file: str): Docstr
+        get_module_classes(file: str): List[ClassDeclaration]
+        get_module_functions(file: str): List[FunctionDeclaration]
+    }
+}
+
+@enduml

@@ -25,7 +25,7 @@ class DocspecAdapter(Parser):
     parse Python source code with Google, Numpy, EpyDoc, or Sphinx style
     docstrings.
 
-    Args:
+    Attributes:
         docstring_style (docstring_parser.common.DocstringStyle):
             Use the DocstringStyle enum to toggle which type of
             docstring format to parse.
