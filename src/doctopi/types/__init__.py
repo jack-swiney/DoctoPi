@@ -43,11 +43,13 @@ class FunctionDeclaration:
 
 
 @dataclass
-class ClassDeclaration:
+class ClassDeclaration:  # pylint: disable = too-many-instance-attributes
     """Doctopi representation of a class"""
     name: str
     signature: str
     docstring: Docstring = None
+    constructor: FunctionDeclaration = None
+    class_variables: List[NameDescriptionType] = field(default_factory=list)
     member_variables: List[NameDescriptionType] = field(default_factory=list)
     member_functions: List[FunctionDeclaration] = field(default_factory=list)
     subclasses: List[ClassDeclaration] = field(default_factory=list)
