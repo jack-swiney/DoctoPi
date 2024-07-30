@@ -164,8 +164,8 @@ class MarkdownInstanceVarCommand(MarkdownClassAttrCommand):
                                       table_rows=self.class_.member_variables).execute()
 
 
-class MarkdownMemberFunctionCommand(MarkdownClassAttrCommand):
-    """The MarkdownMemberFunctionCommand is used to define how to
+class MarkdownMethodsCommand(MarkdownClassAttrCommand):
+    """The MarkdownMethodsCommand is used to define how to
     document class methods.
 
     Attributes:
@@ -183,7 +183,7 @@ class MarkdownMemberFunctionCommand(MarkdownClassAttrCommand):
     def execute(self):
         """Add class method documentation to the markdown generator"""
         if self.class_.member_functions and self.settings.member_functions:
-            self.md_utils.new_header(level=self.level, title="Member Functions")
+            self.md_utils.new_header(level=self.level, title="Methods")
             for member_function in self.class_.member_functions:
                 MarkdownFunctionCommand(md_utils=self.md_utils,
                                         settings=self.settings,

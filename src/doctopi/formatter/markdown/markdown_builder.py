@@ -3,20 +3,20 @@ Markdown
 """
 # Built-in imports
 from __future__ import annotations
-from typing import (List, Type, Union)
 import os
+from typing import (List, Type, Union)
 
 # Third-party imports
 from mdutils import MdUtils
 
 # This package imports
-from doctopi.types import Command, MarkdownSettings
-from doctopi.parser import Parser
-from doctopi.parser.parser_factory import ParserFactory
-from doctopi.formatter.markdown.cmd.function_command import (MarkdownDocstringCommand,
-                                                             MarkdownFunctionCommand)
 from doctopi.formatter.markdown.cmd.class_command import (MarkdownClassCommand,
                                                           MarkdownClassAttrCommand)
+from doctopi.formatter.markdown.cmd.function_command import (MarkdownDocstringCommand,
+                                                             MarkdownFunctionCommand)
+from doctopi.parser import Parser
+from doctopi.parser.parser_factory import ParserFactory
+from doctopi.types import Command, DocDir, DocFile, MarkdownSettings
 
 class MarkdownBuilder:  # pylint: disable = too-many-instance-attributes
     """Build a Markdown formatter and generate documentation. Uses the
@@ -98,19 +98,72 @@ class MarkdownBuilder:  # pylint: disable = too-many-instance-attributes
         self.file_overview: bool = True
         self.public_only: bool = True
 
-    # TODO multi-file and recursive
     def build(self):
         """Generate the markdown by executing the provided commands
         """
-        # Parse the source file
-        parsed_file = self.parser.parse_file(self.src)
-
         # Initialize the md file
         md_utils = MdUtils(file_name=self.output, title=self.title, author=self.author)
 
+        # Parse the provided source path
+        parsed_docs: Union[DocFile, DocDir] = self.parser.parse_file(self.src) \
+             if os.path.isfile(self.src) else self.parser.parse_dir(self.src)
+
+        # Build a single file if it's a single file
+        if isinstance(parsed_docs, DocFile):
+            self.build_single_file(md_utils=md_utils, level=1, parsed_file=parsed_docs)
+
+        # Build for multiple files if it's a dir
+        else:
+            self.build_dir(md_utils=md_utils, level=1, parsed_dir=parsed_docs)
+
+        # Create a table of contents
+        if self.table_of_contents:
+            md_utils.new_table_of_contents(table_title=self.toc_title, depth=self.toc_depth)
+
+        # Output the file.
+        md_utils.create_md_file()
+
+
+    def build_dir(self, md_utils: MdUtils, level: int, parsed_dir: DocDir):
+        """Generate the markdown of a directory by executing the
+        provided commands
+
+        Args:
+            md_utils (MdUtils): Markdown file generator
+            level (int): Starting heading level to build the provided
+                file's documentation
+            parsed_dir (DocDir): parsed source directory
+        """
+        # If using recursion, need an extra level for the directory header
+        file_level = level + 1
+        if self.recursive:
+            file_level = level + 2
+            md_utils.new_header(level=level, title=f"{parsed_dir.name}/")
+
+        for doc in parsed_dir.files:
+            # Create a header for the name of the individual file
+            md_utils.new_header(level=file_level-1, title=doc.name)
+            # Build each individual file
+            self.build_single_file(md_utils=md_utils, level=file_level, parsed_file=doc)
+
+        if self.recursive:
+            # If set to recursive mode, build a directory one level lower for each subdir.
+            for subdir in parsed_dir.subdirs:
+                self.build_dir(md_utils=md_utils, level=level+1, parsed_dir=subdir)
+
+    def build_single_file(self, md_utils: MdUtils, level: int, parsed_file: DocFile):
+        """Generate the markdown of a single file by executing the
+        provided commands
+
+        Args:
+            md_utils (MdUtils): Markdown file generator
+            level (int): Starting heading level to build the provided
+                file's documentation
+            parsed_file (DocFile): parsed source file
+        """
         # Create an overview section
-        md_utils.new_header(level=1, title='Overview')
-        if self.file_overview:
+        if self.file_overview and parsed_file.docstring.summary:
+            md_utils.new_header(level=level, title='Overview')
             md_utils.new_paragraph(parsed_file.docstring.summary)
             md_utils.new_paragraph()
 
@@ -131,35 +184,30 @@ class MarkdownBuilder:  # pylint: disable = too-many-instance-attributes
         for command in self.file_commands:
             # Create a "Classes" section
             if issubclass(command, MarkdownClassCommand):
-                md_utils.new_header(level=1, title='Classes')
+                if parsed_file.classes:
+                    md_utils.new_header(level=level, title='Classes')
 
                 # Pass configuration to the command and execute
                 for class_ in parsed_file.classes:
                     command(md_utils=md_utils,
                             settings = settings,
-                            level=2,
+                            level=level+1,
                             class_ = class_,
                             class_cmds = self.class_commands,
                             function_cmds = self.function_commands).execute()
 
             # Create a "Functions" section
             elif issubclass(command, MarkdownFunctionCommand):
-                md_utils.new_header(level=1, title='Functions')
+                if parsed_file.functions:
+                    md_utils.new_header(level=level, title='Functions')
 
                 # Pass configuration to the command and execute
                 for function in parsed_file.functions:
                     command(md_utils=md_utils,
                             settings = settings,
-                            level=2,
+                            level=level+1,
                             func = function,
                             cmds = self.function_commands).execute()
-
-        # Create a table of contents
-        if self.table_of_contents:
-            md_utils.new_table_of_contents(table_title='Contents', depth=6)
-
-        # Output the file.
-        md_utils.create_md_file()
 
     def add_file_command(self, command: Type[Command]) -> MarkdownBuilder:
         """Add a Markdown generation command. Upon calling
@@ -227,10 +275,10 @@ class MarkdownBuilder:  # pylint: disable = too-many-instance-attributes
         style
 
         Args:
-        language (str, optional): programming language.
-            Defaults to "python".
-        style (str, optional): source code docstring style/flavor.
-            Defaults to "google".
+            language (str, optional): programming language.
+                Defaults to "python".
+            style (str, optional): source code docstring style/flavor.
+                Defaults to "google".
 
         Returns:
             MarkdownBuilder: This MarkdownBuilder object.

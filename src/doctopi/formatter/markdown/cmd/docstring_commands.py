@@ -1,4 +1,8 @@
-"""TODO"""
+"""The Doctopi MarkdownBuilder class uses the Command design pattern to
+let the user customize the documentation for various types. The
+MarkdownDocstringCommand is used to define how to document the params,
+exceptions, and returns of a function.
+"""
 # pylint: disable = too-few-public-methods
 
 # Built-in imports
@@ -41,7 +45,7 @@ class MarkdownArgsCommand(MarkdownDocstringCommand):
     Attributes:
         md_utils (MdUtils): Markdown file generator
         level (int): Heading level to write the Class in markdown
-        params (List[NameDescriptionType])
+        params (List[NameDescriptionType]): Table contents
     """
     def execute(self):
         """Add function argument documentation to the markdown generator"""
@@ -57,7 +61,7 @@ class MarkdownRaisesCommand(MarkdownDocstringCommand):
     Attributes:
         md_utils (MdUtils): Markdown file generator
         level (int): Heading level to write the Class in markdown
-        params (List[NameDescriptionType])
+        params (List[NameDescriptionType]): Table contents
     """
     def execute(self):
         """Add function exception documentation to the markdown
@@ -75,7 +79,7 @@ class MarkdownReturnsCommand(MarkdownDocstringCommand):
     Attributes:
         md_utils (MdUtils): Markdown file generator
         level (int): Heading level to write the Class in markdown
-        params (List[NameDescriptionType])
+        params (List[NameDescriptionType]): Table contents
     """
     def execute(self):
         """Add function returns documentation to the markdown generator"""

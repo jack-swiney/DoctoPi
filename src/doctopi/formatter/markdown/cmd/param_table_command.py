@@ -20,7 +20,7 @@ class MarkdownParamTableCommand(Command):
     Attributes:
         md_utils (MdUtils): Markdown file generator
         settings (MarkdownSettings): Markdown generator settings
-        table_rows (List[NameDescriptionType]) Table contents
+        table_rows (List[NameDescriptionType]): Table contents
     """
     def __init__(self,
                  md_utils: MdUtils,

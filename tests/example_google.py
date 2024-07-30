@@ -44,11 +44,11 @@ class ExampleGoogle:
 
 class ExampleEnum(Enum):
     """Example of a class that inherits from another"""
-    A: int = 1
-    B: int = 2
-    C: int = 3
-    D: int = 4
-    F: int = 6
+    A = 1
+    B = 2
+    C = 3
+    D = 4
+    F = 6
 
     @classmethod
     def passing(cls, arg1: int) -> ExampleEnum:
@@ -57,9 +57,14 @@ class ExampleEnum(Enum):
         Args:
             arg1 (int): description of arg1
 
+        Raises:
+            ValueError: arg1 in range [0,100]
+
         Returns:
             ExampleEnum: description of returns
         """
+        if 0 > arg1 > 100:
+            raise ValueError
         if arg1 > 90: return ExampleEnum.A
         elif arg1 > 80: return ExampleEnum.B
         elif arg1 > 70: return ExampleEnum.C

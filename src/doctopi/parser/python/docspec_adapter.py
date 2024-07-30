@@ -54,6 +54,11 @@ class DocspecAdapter(Parser):
         # Parse the module
         module: Module = parse_python_module(file)
 
+        # docspec_python converts __init__ files to the name of the
+        # package, which makes sense but doesn't work for this adapter
+        if file.endswith("__init__.py"):
+            module.name = "__init__"
+
         # Instantiate and return a DocFile using helper methods
         return DocFile(
             name=module.name,

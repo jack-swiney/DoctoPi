@@ -1,4 +1,7 @@
-"""TODO"""
+"""The Doctopi MarkdownBuilder class uses the Command design pattern to
+let the user customize the documentation for various types. The
+MarkdownFunctionCommand is used to define how to document a function.
+"""
 # pylint: disable = too-few-public-methods
 
 # Built-in imports

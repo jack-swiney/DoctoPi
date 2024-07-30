@@ -26,6 +26,23 @@ class NameDescriptionType:
     description: str = ""
     type: str = ""
 
+    def __post_init__(self):
+        """Clean the input types of newlines"""
+        self.name = self._strip_newlines(self.name)
+        self.description = self._strip_newlines(self.description)
+        self.type = self._strip_newlines(self.type)
+
+    def _strip_newlines(self, line: str) -> str:
+        """Strip any newlines from a string
+
+        Args:
+            line (str): any string
+
+        Returns:
+            str: provided string with newlines removed
+        """
+        return ' '.join(line.splitlines()) if line else line
+
 
 @dataclass
 class Docstring:
