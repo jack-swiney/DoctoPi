@@ -1,15 +1,22 @@
-"""TODO"""
+"""The MarkdownBuilder configures and generates documentation in
+Markdown
+"""
 # Built-in imports
 from __future__ import annotations
-from typing import (List, Union)
+from typing import (List, Type, Union)
 import os
 
 # Third-party imports
+from mdutils import MdUtils
 
 # This package imports
-from doctopi.formatter import Command
+from doctopi.types import Command, MarkdownSettings
 from doctopi.parser import Parser
 from doctopi.parser.parser_factory import ParserFactory
+from doctopi.formatter.markdown.cmd.function_command import (MarkdownDocstringCommand,
+                                                             MarkdownFunctionCommand)
+from doctopi.formatter.markdown.cmd.class_command import (MarkdownClassCommand,
+                                                          MarkdownClassAttrCommand)
 
 class MarkdownBuilder:  # pylint: disable = too-many-instance-attributes
     """Build a Markdown formatter and generate documentation. Uses the
@@ -28,6 +35,10 @@ class MarkdownBuilder:  # pylint: disable = too-many-instance-attributes
         recursive (bool): Toggle if the parser should stop at the root
             source directory provided or parse subdirectories. Default
             is False.
+        title (str): Title of the markdown document to create. Default
+            is None.
+        author (str): Author of the markdown document to create. Default
+             is None.
         toc_depth (int): Heading depth of the table of contents. Value
             should be [1,6]. Default is 1.
         toc_title (str): Title for the table of contents. Default is
@@ -49,18 +60,26 @@ class MarkdownBuilder:  # pylint: disable = too-many-instance-attributes
             documented. Default is True.
         file_overview (bool): Toggle file overview to be documented.
             Default is True.
+        public_only (bool): If enabled, only public class
+            methods will be documented.
     """
     def __init__(self):
         """Constructor"""
         # Generic
         self.src_language: str = ""  # python, java, or cpp
         self.parser: Parser = None
-        self.src: Union[str, bytes, os.PathLike] = None
-        self.output: Union[str, bytes, os.PathLike] = None
+        self.src: Union[str, bytes, os.PathLike] = ""
+        self.output: str = ""
         self.recursive: bool = False
 
+        # Metadata
+        self.title: str = ""
+        self.author: str = ""
+
         # Command pattern
-        self.commands: List[Command] = []
+        self.file_commands: List[Type[Command]] = []
+        self.class_commands: List[Type[MarkdownClassAttrCommand]] = []
+        self.function_commands: List[Type[MarkdownDocstringCommand]] = []
 
         # Table of contents
         self.toc_depth: int = 1 # Should be 1-6
@@ -77,27 +96,131 @@ class MarkdownBuilder:  # pylint: disable = too-many-instance-attributes
         self.inner_classes: bool = True
         self.member_functions: bool = True
         self.file_overview: bool = True
+        self.public_only: bool = True
 
-        #TODO public functions?
+    # TODO multi-file and recursive
+    def build(self):
+        """Generate the markdown by executing the provided commands
+        """
+        # Parse the source file
+        parsed_file = self.parser.parse_file(self.src)
 
-    def add_command(self, command: Command) -> MarkdownBuilder:
+        # Initialize the md file
+        md_utils = MdUtils(file_name=self.output, title=self.title, author=self.author)
+
+        # Create an overview section
+        md_utils.new_header(level=1, title='Overview')
+        if self.file_overview:
+            md_utils.new_paragraph(parsed_file.docstring.summary)
+            md_utils.new_paragraph()
+
+        settings = MarkdownSettings(
+            src_language=self.src_language,
+            table_align=self.table_align,
+            table_of_contents=self.table_of_contents,
+            constructors=self.constructors,
+            class_vars=self.class_vars,
+            instance_vars=self.instance_vars,
+            inner_classes=self.inner_classes,
+            member_functions=self.member_functions,
+            file_overview=self.file_overview,
+            public_only=self.public_only
+        )
+
+        # Generate sections in order of the provided commands
+        for command in self.file_commands:
+            # Create a "Classes" section
+            if issubclass(command, MarkdownClassCommand):
+                md_utils.new_header(level=1, title='Classes')
+
+                # Pass configuration to the command and execute
+                for class_ in parsed_file.classes:
+                    command(md_utils=md_utils,
+                            settings = settings,
+                            level=2,
+                            class_ = class_,
+                            class_cmds = self.class_commands,
+                            function_cmds = self.function_commands).execute()
+
+            # Create a "Functions" section
+            elif issubclass(command, MarkdownFunctionCommand):
+                md_utils.new_header(level=1, title='Functions')
+
+                # Pass configuration to the command and execute
+                for function in parsed_file.functions:
+                    command(md_utils=md_utils,
+                            settings = settings,
+                            level=2,
+                            func = function,
+                            cmds = self.function_commands).execute()
+
+        # Create a table of contents
+        if self.table_of_contents:
+            md_utils.new_table_of_contents(table_title='Contents', depth=6)
+
+        # Output the file.
+        md_utils.create_md_file()
+
+    def add_file_command(self, command: Type[Command]) -> MarkdownBuilder:
         """Add a Markdown generation command. Upon calling
         MarkdownBuild.build(), commands will be executed one by one
         to format and generate documentation in markdown.
 
         Args:
-            command (Command): _description_
+            command (Type[Command]): Commands to execute at the file
+                level
 
         Returns:
-            MarkdownBuilder: _description_
+            MarkdownBuilder: This MarkdownBuilder
         """
-        self.commands.append(command)
+        self.file_commands.append(command)
         return self
 
-    def build(self):
-        """Generate the markdown by executing the provided commands
+    def add_class_commands(self, command: Type[MarkdownClassAttrCommand]) -> MarkdownBuilder:
+        """Add a Markdown generation command. Upon calling
+        MarkdownBuild.build(), commands will be executed one by one
+        to format and generate documentation in markdown.
+
+        Args:
+            command (Type[Command]): Commands to execute at the class
+                level
+
+        Returns:
+            MarkdownBuilder: This MarkdownBuilder
         """
-        raise NotImplementedError
+        self.class_commands.append(command)
+        return self
+
+    def add_function_commands(self, command: Type[MarkdownDocstringCommand]) -> MarkdownBuilder:
+        """Add a Markdown generation command. Upon calling
+        MarkdownBuild.build(), commands will be executed one by one
+        to format and generate documentation in markdown.
+
+        Args:
+            command (Type[Command]): Commands to execute at the function
+                level
+
+        Returns:
+            MarkdownBuilder: This MarkdownBuilder
+        """
+        self.function_commands.append(command)
+        return self
+
+    def configure_metadata(self, title: str = "", author: str = "") -> MarkdownBuilder:
+        """Configure Markdown file metadata
+
+        Args:
+            title (str, optional): Title of the markdown document to
+                create. Defaults to "".
+            author (str, optional): Author of the markdown document to
+                create. Defaults to "".
+
+        Returns:
+            MarkdownBuilder: This MarkdownBuilder
+        """
+        self.title = title
+        self.author = author
+        return self
 
     def configure_src(self, language: str = "python", style: str = "google") -> MarkdownBuilder:
         """Configure the source progammming language and documentation
@@ -119,7 +242,7 @@ class MarkdownBuilder:  # pylint: disable = too-many-instance-attributes
 
     def configure_io(self,
                      src: Union[str, bytes, os.PathLike],
-                     output: Union[str, bytes, os.PathLike] = "README.md",
+                     output: str = "README.md",
                      recursive: bool = False) -> MarkdownBuilder:
         """Configure the Markdown builder to process a provided source
         file or directory, recursive or not, and set the output markdown

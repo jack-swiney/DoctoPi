@@ -1,6 +1,9 @@
 """Common types used by the doctopi package"""
+# pylint: disable = too-many-instance-attributes
+
 # Built-in imports
 from __future__ import annotations
+from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
 import os
@@ -72,3 +75,31 @@ class DocDir:
     path: Union[str, bytes, os.PathLike]
     files: List[DocFile] = field(default_factory=list)
     subdirs: List[DocDir] = field(default_factory=list)
+
+
+# pylint: disable = too-few-public-methods
+class Command(ABC):
+    """Generic class for the command design pattern"""
+    @abstractmethod
+    def execute(self):
+        """Execute the command"""
+
+
+@dataclass
+class MarkdownSettings:
+    """Dataclass to hold Markdown content settings"""
+    # Generic
+    src_language: str = ""
+
+     # Tables
+    table_align: str = "left"  # left, center, or right
+
+    # Enabled content
+    table_of_contents: bool = False
+    constructors: bool = True
+    class_vars: bool = True
+    instance_vars: bool = True
+    inner_classes: bool = True
+    member_functions: bool = True
+    file_overview: bool = True
+    public_only: bool = True

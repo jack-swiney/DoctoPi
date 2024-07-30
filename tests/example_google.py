@@ -75,3 +75,30 @@ def example_function(arg1: int, arg2: ExampleEnum) -> int:
         arg2 (ExampleEnum): description of arg2
     """
     return arg1 + arg2.value
+
+
+class Outer:
+    """Example of an outer class
+
+    Attributes:
+        value (int): the outer value
+    """
+    def __init__(self):
+        self.value = 1
+
+    class Inner:
+        """Example of an inner class
+
+        Attributes:
+            value (int): the inner value
+        """
+        def __init__(self):
+            self.value = -1
+
+    def zero(self) -> int:
+        """Return zero by exercising inner and outer classes
+
+        Returns:
+            int: zero
+        """
+        return self.value + self.Inner().value

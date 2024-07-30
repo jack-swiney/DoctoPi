@@ -344,7 +344,7 @@ class DocspecAdapter(Parser):
 
             # Convert subclasses
             elif isinstance(member, Class):
-                member_functions.append(self._docspec_to_doctopi_class(member))
+                member_classes.append(self._docspec_to_doctopi_class(member))
 
             # Convert class variables
             elif isinstance(member, Variable):
