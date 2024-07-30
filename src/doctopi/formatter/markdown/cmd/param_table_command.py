@@ -38,5 +38,5 @@ class MarkdownParamTableCommand(Command):
                 row.name, row.type, row.description
             ])
         self.md_utils.new_table(columns=3, rows=len(self.table_rows)+1,
-                            text=contents,
-                            text_align=self.settings.table_align)
+                                text=contents,
+                                text_align=self.settings.table_align)

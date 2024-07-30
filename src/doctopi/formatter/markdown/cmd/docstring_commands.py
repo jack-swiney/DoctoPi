@@ -5,8 +5,6 @@ exceptions, and returns of a function.
 """
 # pylint: disable = too-few-public-methods
 
-# Built-in imports
-
 # Third-party imports
 from mdutils.mdutils import MdUtils
 
