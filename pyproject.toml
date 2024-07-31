@@ -21,7 +21,9 @@ dependencies = [
   "docspec",
   "docspec_python",
   "docstring_parser",
-  "mdutils"
+  "mdutils",
+  "pyyaml",
+  "jsonschema"
 ]
 
 [project.optional-dependencies]
@@ -42,3 +44,8 @@ package-dir = {"" = "src"}
 
 [tool.setuptools.package-data]
 "*" = ["*.*"]
+
+[tool.pytest.ini_options]
+pythonpath = [
+  "src"
+]

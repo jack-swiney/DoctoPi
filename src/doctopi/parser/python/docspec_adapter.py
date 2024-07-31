@@ -331,7 +331,7 @@ class DocspecAdapter(Parser):
         """
         class_variables = []
         member_variables = []
-        member_functions = []
+        methods = []
         member_classes = []
         constructor = None
 
@@ -345,7 +345,7 @@ class DocspecAdapter(Parser):
                 if function_declaration.name == "__init__":
                     constructor = function_declaration
                 else:
-                    member_functions.append(function_declaration)
+                    methods.append(function_declaration)
 
             # Convert subclasses
             elif isinstance(member, Class):
@@ -376,7 +376,7 @@ class DocspecAdapter(Parser):
             docstring=self._docspec_to_doctopi_docstring(cls.docstring),
             class_variables=class_variables,
             member_variables=member_variables,
-            member_functions=member_functions,
+            methods=methods,
             subclasses=member_classes
         )
 
