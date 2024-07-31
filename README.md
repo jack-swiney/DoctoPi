@@ -2,7 +2,11 @@
 
 ## Overview
 
-Extensible Python library for docs-as-code
+Extensible Python library for docs-as-code. DoctoPi is a CLI and API used for parsing source code and generating various formats of documentation.
+
+### How it works
+
+![DoctoPi Flow]()
 
 ## Usage
 
