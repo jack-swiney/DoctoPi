@@ -2,19 +2,9 @@
 doctopi
 =======
 
-Contents
-========
+# \_\_init\_\_
 
-* [__init__](#__init__)
-* [__main__](#__main__)
-	* [Overview](#overview)
-	* [Functions](#functions)
-		* [main](#main)
-		* [markdown](#markdown)
-
-# __init__
-
-# __main__
+# \_\_main\_\_
 
 ## Overview
 
@@ -31,6 +21,19 @@ DoctoPi main entrypoint
 def main(raw_args: List[str]):
 ```
 
+Main method for DoctoPi
+
+#### Args
+
+|Name|Type|Description|
+| :--- | :--- | :--- |
+|raw_args|List[str]|System args|
+
+#### Raises
+
+|Type|Description|
+| :--- | :--- |
+|NotImplementedError|Running a command that isn't implemented|
 
 ### markdown
 
@@ -39,3 +42,16 @@ def main(raw_args: List[str]):
 def markdown(args: argparse.Namespace):
 ```
 
+Build and execute a MarkdownBuilder
+
+#### Args
+
+|Name|Type|Description|
+| :--- | :--- | :--- |
+|args|argparse.Namespace|CLI arguments|
+
+#### Raises
+
+|Type|Description|
+| :--- | :--- |
+|DoctoPiConfigError|If a command from the ini doesn't exist|

@@ -142,7 +142,7 @@ class MarkdownBuilder:  # pylint: disable = too-many-instance-attributes
 
         for doc in parsed_dir.files:
             # Create a header for the name of the individual file
-            md_utils.new_header(level=file_level-1, title=doc.name)
+            md_utils.new_header(level=file_level-1, title=doc.name.replace('_', '\\_'))
             # Build each individual file
             self.build_single_file(md_utils=md_utils, level=file_level, parsed_file=doc)
 
