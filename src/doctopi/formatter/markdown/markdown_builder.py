@@ -89,7 +89,7 @@ class MarkdownBuilder:  # pylint: disable = too-many-instance-attributes
         self.table_align: str = "left"  # left, center, or right
 
         # Enabled content
-        self.table_of_contents: bool = True
+        self.table_of_contents: bool = False
         self.constructors: bool = True
         self.class_vars: bool = True
         self.instance_vars: bool = True
