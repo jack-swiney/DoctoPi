@@ -20,7 +20,7 @@ class MarkdownDocstringCommand(Command):
         md_utils (MdUtils): Markdown file generator
         settings (MarkdownSettings): Markdown generator settings
         level (int): Heading level to write the Class in markdown
-        docstring (Docstring]): docstring to document
+        docstring (Docstring): docstring to document
     """
     def __init__(self,
                  md_utils: MdUtils,

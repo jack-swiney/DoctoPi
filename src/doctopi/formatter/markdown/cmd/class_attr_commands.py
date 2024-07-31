@@ -79,6 +79,7 @@ class MarkdownConstructorCommand(MarkdownClassAttrCommand):
 
     Attributes:
         md_utils (MdUtils): Markdown file generator
+        settings (MarkdownSettings): Markdown generator settings
         level (int): Heading level to write the Class in markdown
         class_ (ClassDeclaration): The class to document
         class_cmds (List[Type[MarkdownClassAttrCommand]]): List of commands

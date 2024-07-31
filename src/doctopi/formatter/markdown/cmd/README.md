@@ -83,6 +83,7 @@ a class constructor.
 |Name|Type|Description|
 | :--- | :--- | :--- |
 |md_utils|MdUtils|Markdown file generator|
+|settings|MarkdownSettings|Markdown generator settings|
 |level|int|Heading level to write the Class in markdown|
 |class_|ClassDeclaration|The class to document|
 |class_cmds|List[Type[MarkdownClassAttrCommand]]|List of commands to execute in order to document smaller pieces of the class, such as member variables, inner classes, methods, etc.|
@@ -319,7 +320,7 @@ MarkdownDocstringCommand(md_utils: MdUtils, settings: MarkdownSettings, level: i
 |md_utils|MdUtils|Markdown file generator|
 |settings|MarkdownSettings|Markdown generator settings|
 |level|int|Heading level to write the Class in markdown|
-|docstring|Docstring]|docstring to document|
+|docstring|Docstring|docstring to document|
 
 ### MarkdownArgsCommand
 
