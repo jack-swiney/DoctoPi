@@ -21,9 +21,7 @@ dependencies = [
   "docspec",
   "docspec_python",
   "docstring_parser",
-  "mdutils",
-  "pyyaml",
-  "jsonschema"
+  "mdutils"
 ]
 
 [project.optional-dependencies]

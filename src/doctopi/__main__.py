@@ -1,4 +1,5 @@
 """DoctoPi main entrypoint"""
+# Built-in imports
 import argparse
 import importlib
 import importlib.resources
@@ -7,6 +8,7 @@ import shutil
 import sys
 from typing import Dict, List, Type
 
+# This package imports
 from doctopi.cli import cli, parse_settings, DoctoPiConfigError
 from doctopi.formatter.markdown.markdown_builder import MarkdownBuilder
 from doctopi.formatter.markdown.cmd import *  # pylint: disable = wildcard-import
