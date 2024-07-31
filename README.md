@@ -8,7 +8,7 @@ Extensible Python library for docs-as-code. DoctoPi is a CLI and API used for pa
 
 Various adapters are configured to parse source code and convert docstrings to DoctoPi classes. Using the CLI, users can customize which adapters and formatters to use to generate the desired output.
 
-![DoctoPi Flow]()
+![DoctoPi Flow](https://www.plantuml.com/plantuml/png/5Smn4W8X343HdbFe0IIzrHOUm2jWY6uK4WQIORpzBjsVL_njMEhcjOGh2nRFvBrSThCsxW0zpVXXs_tbWpgg68b5r0hVXB_Rc2pqXuUYwPEX9XPevmloaiRnNNJ69I5i9FcC0m00)
 
 ## Usage
 
@@ -153,15 +153,15 @@ DoctoPi creates various command classes to encapsulate the generation of various
 
 #### DoctoPi Types
 
-![DoctoPi Types PlantUML]()
+![DoctoPi Types PlantUML](https://www.plantuml.com/plantuml/png/5SonZSCm34RXtbFS3H2nJ-KY0sG5XI9Y9X8bY3zXUFlOrGE-ugsEF16jBlzgNAD8pFgt0SFlH3FlwQtOuXKkaxj138bxeq_cxyrtDJdeqHdzgTIo6etpHUMIeGd744yNBQjOEVi3)
 
 #### DoctoPi Parser
 
-![DoctoPi Parser PlantUML]()
+![DoctoPi Parser PlantUML](https://www.plantuml.com/plantuml/png/5Son3G8n38NX_gQ00OXxgYiOW1MCOt66n8aSMoUs9wcUz4dltuUZUTIoNKMfHEQmSZdS-xW369xfBNx4AmORDNLMJzGgV92-jt6AyWyUZRmz1IgAGfyjo4kwf8usVsdPjhFckNy0)
 
 #### DoctoPi Formatter
 
-![DoctoPi Formatter PlantUML]()
+![DoctoPi Formatter PlantUML](https://www.plantuml.com/plantuml/png/5Smnai8m34RXFgVOFG1MJvM20t05OmiYi2MF_6iot9waUZDVyTQ9x8ZUbd_Hqg9oUFlRW36lH9xtz19iyOZ9Nap1YbIiqpkNpsNkelobcnNONQXdKHh7Y-efGzBJl6U0FPsyhAprw0y0)
 
 ## References
 
