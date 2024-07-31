@@ -99,7 +99,7 @@ class DocspecAdapter(Parser):
             elif os.path.isfile(full_path) and full_path.endswith(".py"):
                 modules.append(self.parse_file(full_path))
 
-       # Instantiate and return a DocDir representing the root
+        # Instantiate and return a DocDir representing the root
         return DocDir(
             name=os.path.basename(os.path.normpath(root)),
             path=os.path.abspath(root),
