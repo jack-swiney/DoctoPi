@@ -143,6 +143,12 @@ A lot of off-the-shelf documentation libraries can parse code and generate some 
 
 DoctoPi creates various command classes to encapsulate the generation of various elements of the source code. For example, a typical function docstring may include a summary, parameters, exceptions raised, and any data returned. For example, by encapsulating each of those pieces as a Command, the `MarkdownBuilder` can execute commands in a provided order, allowing the director to reorder and/or remove various elements. The `MarkdownBuilder` class has arrays of commands for functions, classes, and entire files to customize which pieces are documented and how they're organized. The commands specific to the markdown builder are documented [here](src/doctopi/formatter/markdown/cmd/README.md).
 
+### Class Diagrams
+
+#### DoctoPi Types
+
+![DoctoPi Types PlantUML](//www.plantuml.com/plantuml/png/7SnDhe8m5CNnEQjuRm6sHXsP66dy4AC81aE4MIsDLE2sQMz3sBtW6VwIymyTSek-QuD_1QBrbVIs_QiHZLjJQdbFtWfh__9EMg419I0HkgCVBfgPwnN8WUwrG9qgsd45r8mjMarY5C71I4Scsg9k96nEKSOUS_RRBYwMyP4bjxWyP_VaMLpJmofPbFabpoCMX1AgyVW5)
+
 ## References
 
 [1] “Adapter Method - Python Design Patterns,” *GeeksforGeeks*, Jan. 27, 2020. https://www.geeksforgeeks.org/adapter-method-python-design-patterns/
