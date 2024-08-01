@@ -89,28 +89,6 @@ module
 | :--- | :--- |
 |DocDir|Collection of DocFile and DocDirs  mapping the provided directory to the doctopi documentation types.|
 
-##### module\_members
-
-
-```python
-def module_members(member_type: type, convert_func: Callable) -> Callable:
-```
-
-Decorator function for converting types from a dospec Module
-into a list of doctopi types.
-###### Args
-
-|Name|Type|Description|
-| :--- | :--- | :--- |
-|member_type|type|type in docspec.Module.members to convert to doctopi type.|
-|convert_func|Callable|function for converting the docspec module members of member_type to a doctopi type.|
-
-###### Return
-
-|Type|Description|
-| :--- | :--- |
-|Callable|Decorators return a Callable that wraps the function or class it decorates. See below for details on what is returned by the Callable itself.|
-
 ##### get\_module\_docstring
 
 
@@ -368,6 +346,30 @@ However, according to PEP8:
 |Type|Description|
 | :--- | :--- |
 |AccessType|Enum of public, private, or protected.|
+
+## Functions
+
+### module\_members
+
+
+```python
+def module_members(member_type: type, convert_func: Callable) -> Callable:
+```
+
+Decorator function for converting types from a dospec Module
+into a list of doctopi types.
+#### Args
+
+|Name|Type|Description|
+| :--- | :--- | :--- |
+|member_type|type|type in docspec.Module.members to convert to doctopi type.|
+|convert_func|Callable|function for converting the docspec module members of member_type to a doctopi type.|
+
+#### Return
+
+|Type|Description|
+| :--- | :--- |
+|Callable|Decorators return a Callable that wraps the function or class it decorates. See below for details on what is returned by the Callable itself.|
 
 # \_\_init\_\_
 
