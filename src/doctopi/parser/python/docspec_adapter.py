@@ -107,7 +107,6 @@ class DocspecAdapter(Parser):
             subdirs=dirs
         )
 
-    @staticmethod
     def module_members(member_type: type, convert_func: Callable) -> Callable:
         """Decorator function for converting types from a dospec Module
         into a list of doctopi types.
