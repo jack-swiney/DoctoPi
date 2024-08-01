@@ -1,43 +1,37 @@
-"""This is an example module called example_google.py"""
+"""This is an example python module"""
 from __future__ import annotations
 from enum import Enum
 
-class ExampleGoogle:
+class ExampleRest:
     """This is an example of a class
 
-    Attributes:
-        likes_spam (bool): A boolean indicating if we like SPAM or not.
-        eggs (int): An integer count of the eggs we have laid.
+    :param likes_spam: A boolean indicating if we like SPAM or not.
+    :type likes_spam: bool
+    :param eggs: An integer count of the eggs we have laid.
+    :type eggs: int
     """
     def __init__(self, likes_spam: bool = False, eggs: int = 0):
-        """Constructor
-
-        Args:
-            likes_spam (bool, optional): A boolean indicating if we like
-                SPAM or not. Defaults to False.
-            eggs (int, optional): An integer count of the eggs we have
-                laid. Defaults to 0.
-        """
         self.likes_spam: bool = likes_spam
         self.eggs: int = eggs
 
-    def example_google_foo(self, arg: int, arg2: str) -> bool:
-        """Summary of example_google_foo
+    def example_foo(self, arg: int, arg2: str) -> bool:
+        """Summary of example_foo
 
-        Args:
-            arg (int): description of arg
-            arg2 (str): description of arg2
+        :param arg: description of arg
+        :type arg: int
+        :param arg2: description of arg2
+        :type arg2: str
 
-        Returns:
-            bool: description of return value
+        :return: description of return value
+        :rtype: bool
         """
         return arg < 1 and not "no way" in arg2
 
-    def example_google_bar(self, *args, **kwargs) -> bool:
-        """Summary of example_google_bar
+    def example_bar(self, *args, **kwargs) -> bool:
+        """Summary of example_bar
 
-        Returns:
-            bool: description of return value
+        :return: description of return value
+        :rtype: bool
         """
         return len(args) > 0 or "my_kwarg" in kwargs
 
@@ -54,14 +48,13 @@ class ExampleEnum(Enum):
     def passing(cls, arg1: int) -> ExampleEnum:
         """Example of a class method
 
-        Args:
-            arg1 (int): description of arg1
+        :param arg1: description of arg1
+        :type arg1: int
 
-        Raises:
-            ValueError: arg1 in range [0,100]
+        :raises ValueError: arg1 in range [0,100]
 
-        Returns:
-            ExampleEnum: description of returns
+        :return: description of returns
+        :rtype: ExampleEnum
         """
         if 0 > arg1 > 100:
             raise ValueError
@@ -75,9 +68,13 @@ class ExampleEnum(Enum):
 def example_function(arg1: int, arg2: ExampleEnum) -> int:
     """This is an example of a function, called example_function
 
-    Args:
-        arg1 (str): description of arg1
-        arg2 (ExampleEnum): description of arg2
+    :param arg1: description of arg1
+    :type arg1: int
+    :param arg2: description of arg2
+    :type arg2: ExampleEnum
+
+    :return: The sum of arg1 and the value of arg2
+    :rtype: int
     """
     return arg1 + arg2.value
 
@@ -85,8 +82,8 @@ def example_function(arg1: int, arg2: ExampleEnum) -> int:
 class Outer:
     """Example of an outer class
 
-    Attributes:
-        value (int): the outer value
+    :param value: the outer value
+    :type value: int
     """
     def __init__(self):
         self.value = 1
@@ -94,8 +91,8 @@ class Outer:
     class Inner:
         """Example of an inner class
 
-        Attributes:
-            value (int): the inner value
+        :param value: the inner value
+        :type value: int
         """
         def __init__(self):
             self.value = -1
@@ -103,7 +100,7 @@ class Outer:
     def zero(self) -> int:
         """Return zero by exercising inner and outer classes
 
-        Returns:
-            int: zero
+        :return: zero
+        :rtype: int
         """
         return self.value + self.Inner().value

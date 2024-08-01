@@ -47,3 +47,16 @@ package-dir = {"" = "src"}
 pythonpath = [
   "src"
 ]
+
+[tool.coverage.run]
+command_line = "-m pytest"
+source = [
+  "src/doctopi",
+]
+
+[tool.coverage.report]
+show_missing = true
+exclude_lines = [
+  "pragma: no cover",
+  "if __name__ == .__main__:",
+]
