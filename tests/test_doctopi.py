@@ -1,9 +1,12 @@
-"""Tests for `doctopi` package."""
+"""Tests for doctopi CLI functions"""
+# Built-in imports
 import os
 
+# Third-party imports
 import pytest
 
-from doctopi.cli import cli, parse_settings, DoctoPiConfigError
+# This package imports
+from doctopi.cli import cli, ini_to_bool, parse_settings, DoctoPiConfigError
 
 
 class TestCLI:
@@ -29,8 +32,24 @@ class TestCLI:
         # Combine CLI with INI config
         args = parse_settings(args)
 
+        # Verify the settings are correct
         for setting, expected in zip(settings, expecteds):
             assert getattr(args, setting) == expected
+
+
+    def test_parse_settings_no_config(self):
+        """Verify parse_settings runs when no config setting is applied"""
+        # Add required arg to CLI args
+        raw_args = ["markdown", "--input=test_file.py"]
+
+        # Parse CLI
+        args = cli(raw_args)
+
+        # Force remove the config argument
+        delattr(args, "config")
+
+        # Verify parse_settings runs correctly
+        parse_settings(args)
 
     @pytest.mark.parametrize("ini", ["extra_key", "extra_section"])
     def test_parse_settings_off_nominal(self, ini):
@@ -43,3 +62,14 @@ class TestCLI:
         with pytest.raises(DoctoPiConfigError):
             # Combine CLI with INI config
             parse_settings(cli(raw_args))
+
+    def test_ini_to_bool(self):
+        """Verify ini strings are converted to bools correctly"""
+        assert ini_to_bool("yes")
+        assert not ini_to_bool("no")
+
+        with pytest.raises(ValueError):
+            ini_to_bool("true")
+            ini_to_bool("false")
+            ini_to_bool("random")
+            ini_to_bool("")

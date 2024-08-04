@@ -20,6 +20,63 @@ from doctopi.types import (ClassDeclaration, DocDir, DocFile, Docstring,
                            FunctionDeclaration, NameDescriptionType, AccessType)
 
 
+def module_members(member_type: type, convert_func: Callable) -> Callable:
+    """Decorator function for converting types from a dospec Module
+    into a list of doctopi types.
+
+    Args:
+        member_type (type): type in docspec.Module.members to
+            convert to doctopi type.
+        convert_func (Callable): function for converting the docspec
+            module members of member_type to a doctopi type.
+
+    Returns:
+        Callable: Decorators return a Callable that wraps the
+            function or class it decorates. See below for details
+            on what is returned by the Callable itself.
+    """
+    def decorator(func: Callable) -> Callable:  # pylint: disable=unused-argument
+        """Execute the wrapper function below whenver a function
+        is decorated with this module_members decorator.
+
+        Args:
+            func (Callable): Function that is decorated. This
+                function shouldn't implement any functionality, as
+                the decorator will handle it all. The function
+                being decorator will just be a convenient name/
+                entrypoint for this decorator function
+
+        Returns:
+            Callable: Decorators return a Callable that wraps the
+                function or class it decorates. See below for
+                details on what is returned by the Callable itself.
+        """
+        def wrapper(self, module: Module) -> List:
+            """Convert types from a dospec Module into a list of
+            doctopi types.
+
+            Args:
+                module (Module): Python module that has been parsed
+                    by docspec
+
+            Returns:
+                List: list of doctopi types specified in the
+                    decorator arguments, converted from the dospec
+                    Module.
+            """
+            # Create a list of declarations
+            declarations = []
+
+            # Go through each member and filter by the specified type
+            for member in module.members:
+                if isinstance(member, member_type):
+                    declarations.append(convert_func(self, member))
+
+            return declarations
+        return wrapper
+    return decorator
+
+
 class DocspecAdapter(Parser):
     """Adapter to convert docspec utilites/types to doctopi types. Used to
     parse Python source code with Google, Numpy, EpyDoc, or Sphinx style
@@ -106,63 +163,6 @@ class DocspecAdapter(Parser):
             files=modules,
             subdirs=dirs
         )
-
-    @staticmethod
-    def module_members(member_type: type, convert_func: Callable) -> Callable:
-        """Decorator function for converting types from a dospec Module
-        into a list of doctopi types.
-
-        Args:
-            member_type (type): type in docspec.Module.members to
-                convert to doctopi type.
-            convert_func (Callable): function for converting the docspec
-                module members of member_type to a doctopi type.
-
-        Returns:
-            Callable: Decorators return a Callable that wraps the
-                function or class it decorates. See below for details
-                on what is returned by the Callable itself.
-        """
-        def decorator(func: Callable) -> Callable:  # pylint: disable=unused-argument
-            """Execute the wrapper function below whenver a function
-            is decorated with this module_members decorator.
-
-            Args:
-                func (Callable): Function that is decorated. This
-                    function shouldn't implement any functionality, as
-                    the decorator will handle it all. The function
-                    being decorator will just be a convenient name/
-                    entrypoint for this decorator function
-
-            Returns:
-                Callable: Decorators return a Callable that wraps the
-                    function or class it decorates. See below for
-                    details on what is returned by the Callable itself.
-            """
-            def wrapper(self, module: Module) -> List:
-                """Convert types from a dospec Module into a list of
-                doctopi types.
-
-                Args:
-                    module (Module): Python module that has been parsed
-                        by docspec
-
-                Returns:
-                    List: list of doctopi types specified in the
-                        decorator arguments, converted from the dospec
-                        Module.
-                """
-                # Create a list of declarations
-                declarations = []
-
-                # Go through each member and filter by the specified type
-                for member in module.members:
-                    if isinstance(member, member_type):
-                        declarations.append(convert_func(self, member))
-
-                return declarations
-            return wrapper
-        return decorator
 
     def get_module_docstring(self, file: Union[str, bytes, os.PathLike]) -> Docstring:
         """Use the docspec adapter to parse a Python module and return

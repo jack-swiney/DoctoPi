@@ -163,6 +163,7 @@ cython_debug/
 
 # VSCode
 .vscode
+.devcontainer
 
 # Project specifics
 tmp*
