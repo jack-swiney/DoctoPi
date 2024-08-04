@@ -214,8 +214,6 @@ exceptions, etc.
 ```python
 MarkdownFunctionCommand(md_utils: MdUtils, settings: MarkdownSettings, level: int, func: FunctionDeclaration, cmds: List[Type[MarkdownDocstringCommand]]):
 ```
-
-
 #### Member Variables
 
 |Name|Type|Description|
@@ -263,8 +261,6 @@ and Description.
 ```python
 MarkdownParamTableCommand(md_utils: MdUtils, settings: MarkdownSettings, table_rows: List[NameDescriptionType]):
 ```
-
-
 #### Member Variables
 
 |Name|Type|Description|
@@ -311,8 +307,6 @@ Generic class for markdown commands specific to docstring params
 ```python
 MarkdownDocstringCommand(md_utils: MdUtils, settings: MarkdownSettings, level: int, docstring: Docstring):
 ```
-
-
 #### Member Variables
 
 |Name|Type|Description|
