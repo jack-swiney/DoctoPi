@@ -32,7 +32,8 @@ class MarkdownClassCommand(MarkdownClassAttrCommand):
         # Overview
         self.md_utils.new_header(level=self.level, title=self.class_.name)
         self.md_utils.insert_code(self.class_.signature, language=self.settings.src_language)
-        self.md_utils.new_paragraph(self.class_.docstring.summary)
+        if self.class_.docstring.summary:
+            self.md_utils.new_paragraph(self.class_.docstring.summary)
 
         # Execute all the sub-commands in the order provided.
         for cmd in self.class_cmds:

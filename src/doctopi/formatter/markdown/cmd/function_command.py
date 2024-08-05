@@ -60,7 +60,8 @@ class MarkdownFunctionCommand(Command):
         )
         # Include the summary/description
         if self.func.docstring:
-            self.md_utils.new_paragraph(self.func.docstring.summary)
+            if self.func.docstring.summary:
+                self.md_utils.new_paragraph(self.func.docstring.summary)
 
             # Document the params/exceptions/return type via command pattern
             for cmd in self.commands:
