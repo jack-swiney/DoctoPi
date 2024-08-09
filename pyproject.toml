@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "doctopi"
+name = "DoctoPi"
 version = "0.1.0"
 description = "Extensible Python library for docs-as-code"
 readme = "README.md"

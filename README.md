@@ -1,5 +1,11 @@
 # DoctoPi
 
+## Installation
+
+```sh
+python -m pip install doctopi
+```
+
 ## Overview
 
 Extensible Python library for docs-as-code. DoctoPi is a CLI and API used for parsing source code and generating various formats of documentation.
