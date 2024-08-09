@@ -64,13 +64,14 @@ local development.
     ```
 
 3.  Install your local copy into a virtualenv. Assuming you have
-    virtualenvwrapper installed, this is how you set up your fork for
+    virtualenvwrapper and pip installed, this is how you set up your fork for
     local development:
 
     ``` shell
     $ mkvirtualenv doctopi
     $ cd doctopi/
-    $ python setup.py develop
+    $ pip install -r requirements_dev.txt
+    $ python -m pip install .
     ```
 
 4.  Create a branch for local development:
