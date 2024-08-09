@@ -1,61 +1,20 @@
-# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
-
-name: Python package
+name: Publish Python 🐍 distribution 📦 to PyPI
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  release:
+    types: [published]
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.9", "3.10", "3.11", "3.12"]
-    steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
-      run: |
-        # Upgrade pip
-        python -m pip install --upgrade pip
-        # Install libraries for CI/CD
-        python -m pip install flake8 pytest pylint pytest-mock coverage
-        # Install dependencies of DoctoPi
-        python -m pip install .
-    - name: Lint with flake8
-      run: |
-        # Flake8 lint the source code
-        flake8 --exclude "tests/*" --max-line-length=100 .
-    - name: Lint with PyLint
-      run: |
-        # PyLint the source code
-        pylint src/doctopi
-    - name: Test with pytest
-      run: |
-        # Execute tests
-        coverage run
-        # Get coverage report
-        coverage report
-
   build:
     name: Build distribution 📦
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v4
-
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: "3.x"
-
     - name: Install pypa/build
       run: python3 -m pip install build --user\
 
@@ -70,7 +29,6 @@ jobs:
 
   publish-to-pypi:
     name: Publish Python 🐍 distribution 📦 to PyPI
-    if: startsWith(github.ref, 'refs/tags/')  # only publish to PyPI on tag pushes
     needs:
     - build
     runs-on: ubuntu-latest
